@@ -86,9 +86,9 @@ for q in atlas_new:
     if q['id'] in ids: raise RuntimeError(f'Duplicate ID {q["id"]}')
     data['questions'].append(q); ids.add(q['id'])
 
-# Restore the proven original image contract: DATA.images[q.image] is a data URL.
-# Never transform those references into file paths. The historical blob contains
-# the actual JPEG bytes, unlike the broken generated assets paths.
+# The historical blob holds the actual bytes of the 38 original photos. They are written to
+# assets/photos/ (committed, validated below) instead of being inlined: 2.5 MB of base64 in
+# index.html blocked the first render.
 import subprocess
 historical_blob='9e40c6f2b0de406ef7c0a29dd2acce9366a55b83'
 original=subprocess.check_output(['git','cat-file','blob',historical_blob],cwd=root).decode('utf-8')
@@ -104,7 +104,15 @@ if len(original_images)<38:
 for key,value in original_images.items():
     if not isinstance(value,str) or not value.startswith('data:image/'):
         raise RuntimeError(f'Invalid historical image: {key}')
-    data['images'][str(key)]=value
+    head,payload_b64=value.split(',',1)
+    ext={'data:image/jpeg;base64':'jpg','data:image/png;base64':'png'}.get(head)
+    if not ext:
+        data['images'][str(key)]=value
+        continue
+    photo=root/'assets'/'photos'/f'weed_{key}.{ext}'
+    photo.parent.mkdir(parents=True,exist_ok=True)
+    photo.write_bytes(base64.b64decode(payload_b64))
+    data['images'][str(key)]=photo.relative_to(root).as_posix()
 
 # Restore keys for all questions accidentally rewritten to assets/... paths.
 image_urls={v:k for k,v in data['images'].items() if isinstance(v,str)}
@@ -124,18 +132,17 @@ for question in data['questions']:
         question['image']=stem
 
 def usable_image(value):
-    # Original photos and SVGs are embedded; atlas photos are committed files under assets/atlas/.
+    # SVG diagrams are embedded; photos are committed files under assets/photos/ and assets/atlas/.
     return isinstance(value,str) and (value.startswith('data:image/')
-        or (value.startswith('assets/atlas/') and (root/value).is_file()))
+        or (value.startswith(('assets/atlas/','assets/photos/')) and (root/value).is_file()))
 bad=[(q['id'],q.get('image')) for q in data['questions']
      if q.get('image') and not usable_image(data['images'].get(str(q['image'])))]
 if bad:
     raise RuntimeError(f'Broken image references: {bad[:20]}')
-# Every weed gallery image must be a usable inline data URL.
+# Every weed gallery image must point to an existing photo file.
 for weed in data['weeds']:
     ref=str(weed['id'])
-    value=data['images'].get(ref,'')
-    assert value.startswith('data:image/'), f'Gallery image {ref} is not embedded'
+    assert usable_image(data['images'].get(ref)), f'Gallery image {ref} is missing'
 assert len(data['weeds'])==38, f'Expected 38 gallery entries, got {len(data["weeds"])}'
 print(f'Validated {len(original_images)} original photos and {sum(bool(q.get("image")) for q in data["questions"])} illustrated questions')
 

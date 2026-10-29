@@ -39,12 +39,13 @@ jobs:
           assert len(data['weeds']) == 38, 'Weed gallery incomplete'
           for weed in data['weeds']:
             key=str(weed['id'])
-            assert data['images'].get(key,'').startswith('data:image/'), f'Broken gallery photo: {key}'
+            value=data['images'].get(key,'')
+            assert value.startswith('assets/photos/') and os.path.isfile(value), f'Broken gallery photo: {key}'
           for question in questions:
             if question.get('image'):
               value=data['images'].get(str(question['image']),'')
-              # Atlas photos are committed files in assets/atlas/; everything else is embedded.
-              assert value.startswith('data:image/') or (value.startswith('assets/atlas/') and os.path.isfile(value)), f'Broken image question: {question["id"]}'
+              # Photos are committed files in assets/; SVG diagrams are embedded.
+              assert value.startswith('data:image/') or (value.startswith(('assets/atlas/','assets/photos/')) and os.path.isfile(value)), f'Broken image question: {question["id"]}'
           print('All 38 gallery photos and every illustrated question validated')
           print(f'Validated {len(questions)} questions')
           PY
@@ -52,7 +53,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html
+          git add index.html assets/photos
           if ! git diff --cached --quiet; then
             git commit -m "Build unified VAAD trainer question bank [skip ci]"
             git push origin HEAD:main

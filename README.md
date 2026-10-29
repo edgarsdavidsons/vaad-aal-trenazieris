@@ -10,7 +10,7 @@ Kad aktivizēts GitHub Pages: https://edgarsdavidsons.github.io/vaad-aal-trenazi
 - Mācību režīms pa tēmām, eksāmena simulācija un kļūdu atkārtošana.
 - Atbilžu skaidrojumi, rezultātu vēsture, progresa pārskats.
 - Progress glabājas atsevišķi katra lietotāja pārlūkā (localStorage); konts nav nepieciešams.
-- Mobilajām ierīcēm pielāgota saskarne; treniņam bezsaistē var lejupielādēt `index.html`.
+- Mobilajām ierīcēm pielāgota saskarne. Foto glabājas `assets/photos/` un `assets/atlas/` un ielādējas tikai tad, kad tie vajadzīgi (pats `index.html` ~0,5 MB).
 
 ## Izvietošana GitHub Pages
 Atveriet `Settings → Pages → Build and deployment`, izvēlieties `Deploy from a branch`, `main`, `/(root)`, un nospiediet `Save`.
