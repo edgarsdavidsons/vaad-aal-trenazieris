@@ -165,7 +165,7 @@ def slug(s):
     return re.sub(r'[^a-z0-9]+', '_', s).strip('_')
 
 
-def save(im, name, maxw=560, quality=72):
+def save(im, name, maxw=800, quality=70):
     im = im.convert('RGB')
     if im.width > maxw:
         im = im.resize((maxw, round(im.height * maxw / im.width)), Image.LANCZOS)
@@ -232,7 +232,7 @@ for pn, fig, crop_bottom, labels in [
     (_, im), = page_images(doc, pn)
     im = im.convert('RGB')
     im = im.crop((0, 0, im.width, round(im.height * (1 - crop_bottom))))
-    figs.append(dict(id=fig, image=save(im, f'root_{fig}', maxw=720, quality=80), labels=labels))
+    figs.append(dict(id=fig, image=save(im, f'root_{fig}', maxw=900, quality=80), labels=labels))
 
 # Teacher's Google Forms test: crop question images from the long screenshot.
 form = fitz.open(next(src.glob('screencapture-docs-google-forms-*.pdf')))
@@ -256,7 +256,7 @@ TEST_BOXES = {
 test_images = {}
 for q, (x1, y1, x2, y2) in TEST_BOXES.items():
     box = (round(X0 + x1 / K), round(y1 / K), round(X0 + x2 / K), round(y2 / K))
-    test_images[str(q)] = save(full.crop(box), f'test_q{q:02d}', maxw=720, quality=78)
+    test_images[str(q)] = save(full.crop(box), f'test_q{q:02d}', maxw=900, quality=78)
 
 # Selected, unambiguous photos from nezāles.pptx (slide_shape -> label).
 pptx_pick = {

@@ -164,7 +164,7 @@ function renderAtlas(){return `${topTitle('Nezāļu atlants',`${ATLAS.species.le
 <div class="toolbar"><input id="atlasSearch" type="search" class="search" placeholder="Meklēt augu, piem., usne..." value="${esc(atlasFilter)}"/><div class="atlas-tabs">${[['root','Pēc sakņu sistēmas'],['group','Pēc bioloģiskās grupas']].map(([m,t])=>btn('atlasMode',t,atlasMode===m?'btn-primary':'btn-light',`data-mode="${m}"`)).join('')}</div></div>
 <div id="atlasList">${atlasRows()}</div>
 <div class="section-head"><div><h3>Sakņu sistēmu zīmējumi (D. Lapiņš, 2021)</h3><p>Tie paši zīmējumi, kas skolotājas testā. Vispirms mēģini atpazīt, tad atver atbildi.</p></div></div>
-<div class="atlas-figs">${ATLAS.rootFigures.map(f=>`<div class="panel atlas-fig"><img src="${DATA.images[f.image]}" loading="lazy" alt="Nezāļu sakņu sistēmu zīmējums"/><details><summary>Rādīt atbildi</summary>${Object.entries(f.labels).map(([k,v])=>`<div>${k?`<b>${k}</b> – `:''}${esc(v)}</div>`).join('')}</details></div>`).join('')}</div>
+<div class="atlas-figs">${ATLAS.rootFigures.map(f=>`<div class="panel atlas-fig"><img src="${DATA.images[f.image]}" loading="lazy" alt="Nezāļu sakņu sistēmu zīmējums" data-action="zoom" data-src="${DATA.images[f.image]}"/><details><summary>Rādīt atbildi</summary>${Object.entries(f.labels).map(([k,v])=>`<div>${k?`<b>${k}</b> – `:''}${esc(v)}</div>`).join('')}</details></div>`).join('')}</div>
 <div class="section-head"><div><h3>Trenēties ar atlantu</h3><p>Jautājumi veidoti tāpat kā skolotājas „Nezāļu testā”.</p></div></div>
 <div class="badge-wrap">${ATLAS_TOPICS.map(([t,i])=>btn('topic',`${i} ${esc(t)} (${Q.filter(q=>q.topic===t).length})`,'btn-outline',`data-topic="${esc(t)}"`)).join('')}${btn('teacherExam','⏱ Tests skolotājas formātā (21)','btn-primary')}</div>`}
 function atlasRows(){let term=atlasFilter.toLocaleLowerCase('lv-LV'),match=s=>!term||(s.name+' '+s.latin).toLocaleLowerCase('lv-LV').includes(term);
@@ -172,16 +172,33 @@ let sections=atlasMode==='root'?Object.entries(ATLAS.roots).map(([id,r])=>({titl
 let html=sections.map(sec=>({...sec,items:sec.items.filter(match)})).filter(sec=>sec.items.length).map(sec=>`<section class="panel atlas-sec"><div class="atlas-head"><h3>${esc(sec.title)}</h3><span class="root-tag">${sec.items.length} ${sec.items.length===1?'augs':'augi'}</span></div><p class="small-muted">${esc(sec.desc)}</p><div class="atlas-names">${sec.items.map(s=>esc(s.name)).join(' · ')}</div><div class="atlas-grid">${sec.items.map(atlasCard).join('')}</div></section>`).join('');
 return html||'<div class="empty-state"><span class="emoji">🔍</span><h3>Augs nav atrasts</h3><p>Izmēģini citu nosaukumu.</p></div>'}
 function atlasCard(s){let g=ATLAS.groups[s.group],r=ATLAS.roots[s.root];
-return `<div class="atlas-card"><div class="atlas-pics">${s.images.map(k=>`<img src="${DATA.images[k]}" loading="lazy" alt="${esc(s.name)}"/>`).join('')}</div><b>${esc(s.name)}</b><i>${esc(s.latin)}</i><small>${esc(g.life==='Barošanās veids'?g.name:`${g.life} · ${g.name}`)} · ${esc(s.cls)}</small>${r?`<small class="atlas-root">🌱 ${esc(r.name)}</small>`:''}${s.rootNote?`<small>${esc(s.rootNote)}</small>`:''}</div>`}
+let pic=(k,i,cls)=>`<img class="${cls}" src="${DATA.images[k]}" loading="lazy" alt="${esc(s.name)}" data-action="zoom" data-sp="${s.id}" data-i="${i}"/>`;
+return `<div class="atlas-card"><div class="atlas-main">${pic(s.images[0],0,'')}${s.images.length>1?`<span class="atlas-count">${s.images.length} foto</span>`:''}</div>${s.images.length>1?`<div class="atlas-thumbs">${s.images.map((k,i)=>pic(k,i,i===0?'on':'')).join('')}</div>`:''}<b>${esc(s.name)}</b><i>${esc(s.latin)}</i><small>${esc(g.life==='Barošanās veids'?g.name:`${g.life} · ${g.name}`)} · ${esc(s.cls)}</small>${r?`<small class="atlas-root">🌱 ${esc(r.name)}</small>`:''}${s.rootNote?`<small>${esc(s.rootNote)}</small>`:''}</div>`}
+let lightbox=null;
+function drawZoom(){let el=document.getElementById('zoom');if(!lightbox){el?.remove();return}
+if(!el){el=document.createElement('div');el.id='zoom';el.className='zoom';document.body.appendChild(el)}
+let n=lightbox.list.length;
+el.innerHTML=`<button class="zoom-x" data-action="zoomClose" aria-label="Aizvērt">✕</button>${n>1?`<button class="zoom-nav prev" data-action="zoomStep" data-step="-1" aria-label="Iepriekšējā bilde">‹</button><button class="zoom-nav next" data-action="zoomStep" data-step="1" aria-label="Nākamā bilde">›</button>`:''}<figure><img src="${lightbox.list[lightbox.i]}" alt="Palielināts attēls"/>${lightbox.caption||n>1?`<figcaption>${lightbox.caption}${n>1?` · ${lightbox.i+1}/${n}`:''}</figcaption>`:''}</figure>`}
+function openZoom(e){let s=e.dataset.sp&&ATLAS.species.find(x=>x.id===e.dataset.sp);
+if(s){let r=ATLAS.roots[s.root];lightbox={list:s.images.map(k=>DATA.images[k]),i:+e.dataset.i||0,caption:`<b>${esc(s.name)}</b> <i>${esc(s.latin)}</i>${r?` · 🌱 ${esc(r.name)}`:''}`}}
+else lightbox={list:[e.dataset.src],i:0,caption:''};
+drawZoom()}
+function stepZoom(d){if(!lightbox)return;let n=lightbox.list.length;lightbox.i=(lightbox.i+d+n)%n;drawZoom()}
 function pickTeacher(){let used=new Set(),take=(f,n)=>shuffled(Q.filter(q=>f(q)&&!used.has(q.id))).slice(0,n).map(q=>(used.add(q.id),q.id));
 return shuffled([...take(q=>q.topic==='Nezāļu foto atlants',7),...take(q=>q.id.startsWith('ATD-')||(q.id.startsWith('ATR-')&&!!q.image),4),...take(q=>q.topic==='Sakņu sistēmas ↔ augi'&&!q.image,2),...take(q=>q.id.startsWith('ATC-'),2),...take(q=>q.topic==='Nezāļu bukleti'||q.topic==='Herbicīdu rezistence',6)])}
 function renderHome(){""")
 patch("<div class=\"root-callout\"><span>🌿</span>","""<div class="root-callout"><span>🧑‍🏫</span><div><strong>Jauns: nezāļu atlants un tests skolotājas formātā</strong><p>${ATLAS.species.length} nezāles ar foto, visi augi katrai sakņu sistēmai un 21 jautājuma nezāļu tests tādā formātā kā skolotājas „Nezāļu tests”.</p></div><button data-action="atlas" class="btn btn-primary">Atlants →</button><button data-action="teacherExam" class="btn btn-outline">Tests →</button></div>
 <div class="root-callout"><span>🌿</span>""")
 patch("${btn('startExam','Sākt eksāmenu →','btn-primary btn-xl')}","${btn('startExam','Sākt eksāmenu →','btn-primary btn-xl')} ${btn('teacherExam','Tests skolotājas formātā (21 jaut., 25 min) →','btn-outline btn-xl')}")
-patch("else if(a==='rootsQuiz')","""else if(a==='atlasMode'){atlasMode=e.dataset.mode;render()}
+patch("else if(a==='rootsQuiz')","""else if(a==='zoom'){openZoom(e)}
+else if(a==='zoomClose'){lightbox=null;drawZoom()}
+else if(a==='zoomStep'){stepZoom(+e.dataset.step)}
+else if(a==='atlasMode'){atlasMode=e.dataset.mode;render()}
 else if(a==='teacherExam'){start(pickTeacher(),'exam',25,'Skolotājas formāta tests')}
 else if(a==='rootsQuiz')""")
+patch("document.addEventListener('click',e=>{","document.addEventListener('click',e=>{if(e.target.id==='zoom'){lightbox=null;drawZoom();return}")
+patch("document.addEventListener('keydown',e=>{","document.addEventListener('keydown',e=>{if(lightbox){if(e.key==='Escape'){lightbox=null;drawZoom()}else if(e.key==='ArrowRight')stepZoom(1);else if(e.key==='ArrowLeft')stepZoom(-1);return}")
+patch('class="question-photo"','class="question-photo" data-action="zoom" data-src="${DATA.images[q.image]}" title="Spied, lai palielinātu"')
 patch("document.addEventListener('input',e=>{","document.addEventListener('input',e=>{if(e.target.id==='atlasSearch'){atlasFilter=e.target.value;document.getElementById('atlasList').innerHTML=atlasRows()}")
 patch("</head>","""<style>
 .atlas-tabs{display:flex;gap:8px;flex-wrap:wrap}
@@ -189,10 +206,22 @@ patch("</head>","""<style>
 .atlas-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .atlas-head h3{margin:0;font-size:17px}
 .atlas-names{font-size:12px;font-weight:700;color:var(--green);margin:8px 0 14px;line-height:1.6}
-.atlas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:12px}
+.atlas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:14px}
 .atlas-card{border:1px solid var(--border);border-radius:13px;padding:8px;display:flex;flex-direction:column;gap:3px;font-size:13px;background:var(--card)}
-.atlas-pics{display:flex;gap:4px;margin-bottom:5px}
-.atlas-pics img{flex:1;min-width:0;height:115px;object-fit:cover;border-radius:9px;background:var(--sage)}
+.atlas-main{position:relative}
+.atlas-main img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;background:var(--sage);cursor:zoom-in}
+.atlas-count{position:absolute;right:7px;bottom:7px;background:rgba(10,25,18,.7);color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:6px}
+.atlas-thumbs{display:flex;gap:5px;margin:5px 0 3px}
+.atlas-thumbs img{width:46px;height:36px;object-fit:cover;border-radius:6px;cursor:zoom-in;opacity:.75;background:var(--sage)}
+.atlas-thumbs img.on,.atlas-thumbs img:hover{opacity:1;outline:2px solid var(--green)}
+.atlas-card b{margin-top:4px}
+.question-photo,.atlas-fig img{cursor:zoom-in}
+.zoom{position:fixed;inset:0;z-index:1000;background:rgba(8,20,14,.92);display:flex;align-items:center;justify-content:center;padding:20px}
+.zoom figure{margin:0;text-align:center}
+.zoom img{width:min(92vw,960px);max-height:84vh;object-fit:contain;border-radius:10px;background:#111}
+.zoom figcaption{color:#e6efe8;font-size:14px;margin-top:10px}
+.zoom-x,.zoom-nav{position:absolute;background:rgba(255,255,255,.16);color:#fff;border:0;border-radius:50%;width:46px;height:46px;font-size:24px;line-height:1;cursor:pointer}
+.zoom-x{top:16px;right:16px}.zoom-nav{top:calc(50% - 23px)}.zoom-nav.prev{left:14px}.zoom-nav.next{right:14px}
 .atlas-card i,.atlas-card small{font-size:11px;color:var(--muted);line-height:1.4}
 .atlas-card small.atlas-root{color:var(--green);font-weight:800}
 .atlas-figs{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
@@ -200,7 +229,7 @@ patch("</head>","""<style>
 .atlas-fig summary{cursor:pointer;font-weight:800;margin:9px 0 5px;color:var(--green)}
 .atlas-fig details div{font-size:13px;padding:2px 0}
 .root-callout .btn{flex-shrink:0}
-@media(max-width:480px){.atlas-grid{grid-template-columns:1fr 1fr}.atlas-pics img{height:90px}.root-callout{flex-wrap:wrap}}
+@media(max-width:480px){.atlas-grid{grid-template-columns:1fr 1fr;gap:9px}.atlas-thumbs img{width:34px;height:28px}.root-callout{flex-wrap:wrap}.zoom{padding:8px}.zoom-nav{top:auto;bottom:18px}}
 </style>
 </head>""")
 
