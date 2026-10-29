@@ -105,6 +105,13 @@ source=source.replace('<strong>221</strong>','<strong>${Q.length}</strong>').rep
 source=source.replace('221 izstrādāts jautājums','Daudzveidīgi mācību jautājumi')
 source=source.replace('11 tematiskas sadaļas','${TOPICS.length} tematiskas sadaļas')
 source=source.replace('213 teksta + 38 foto + 6 sakņu shēmas','Dažādi jautājumi, foto un shēmas')
+# Resolve both source lookups using source objects that always have valid fields.
+# Existing app stores SOURCES in an array and question source references can be stale.
+source=source.replace("SOURCES[q.source].url", "(SOURCES[q.source]||{url:'#',type:'Mācību materiāls'}).url")
+source=source.replace("SOURCES[q.source].type", "(SOURCES[q.source]||{url:'#',type:'Mācību materiāls'}).type")
+source=source.replace("SOURCES[q.source].title", "(SOURCES[q.source]||{url:'#',type:'Mācību materiāls'}).title")
+# Also provide fallback for a local variable named src in renderers.
+source=source.replace("let src=SOURCES[q.source];", "let src=SOURCES[q.source]||{url:'#',type:'Mācību materiāls',title:'Mācību materiāls'};")
 # Defensive rendering: unknown source codes must not crash the entire question view.
 source=source.replace("let src=SOURCES[q.source];", "let src=SOURCES[q.source]||SOURCES['AA']||{url:'#',type:'Mācības',title:'Mācību materiāls'};")
 # A saved interrupted session may point to obsolete IDs after a bank migration.
