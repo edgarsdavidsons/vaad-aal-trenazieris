@@ -105,6 +105,10 @@ source=source.replace('<strong>221</strong>','<strong>${Q.length}</strong>').rep
 source=source.replace('221 izstrādāts jautājums','Daudzveidīgi mācību jautājumi')
 source=source.replace('11 tematiskas sadaļas','${TOPICS.length} tematiskas sadaļas')
 source=source.replace('213 teksta + 38 foto + 6 sakņu shēmas','Dažādi jautājumi, foto un shēmas')
+# Defensive rendering: unknown source codes must not crash the entire question view.
+source=source.replace("let src=SOURCES[q.source];", "let src=SOURCES[q.source]||SOURCES['AA']||{url:'#',type:'Mācības',title:'Mācību materiāls'};")
+# A saved interrupted session may point to obsolete IDs after a bank migration.
+source=source.replace("function sessionQuestion(){if(!session)return renderHome();", "function sessionQuestion(){if(!session)return renderHome();if(!BYID[session.ids[session.idx]]){session=null;save();return renderHome();}")
 page.write_text(source,encoding='utf-8')
 assert len(data['questions'])>=350, len(data['questions'])
 assert len(ids)==len(data['questions'])
