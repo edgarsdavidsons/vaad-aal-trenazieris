@@ -22,9 +22,21 @@ Trenažierī ietverti arī attēli no mācību materiāliem. Pirms to tālākas 
 
 Oficiālā VAAD programma: https://www.vaad.gov.lv/lv/otras-registracijas-klases-aal-lietotaju-macibas-apraksts-un-programma
 
+## Jaunā papildinātā mācību un eksāmena sadaļa
+
+[Atvērt papildinātās mācības un eksāmenu](https://edgarsdavidsons.github.io/vaad-aal-trenazieris/saknu-sistemas.html)
+
+- 40 papildu jautājumi par nezāļu sakņu sistēmām, klasifikāciju un ierobežošanu.
+- Mācību režīms ar pareizo atbilžu skaidrojumiem un izvēli pa tēmām.
+- Atsevišķa 30 jautājumu eksāmena simulācija, jautājumi nejaušā secībā.
+- Automātiska progresa saglabāšana (`localStorage`): atverot lapu atkal tajā pašā pārlūkā, mācības vai nepabeigtu eksāmenu var turpināt no iepriekšējās vietas.
+- Atsevišķa poga tīšai progresa atiestatīšanai.
+
+**Piezīme:** pagaidām šī sadaļa darbojas kā atsevišķa lapa. Tā nav vēl apvienota galvenās `index.html` eksāmena jautājumu bankā.
+
 ## Nezāļu sakņu sistēmas
 
-Papildināts ar 6 sakņu uzbūves shēmām un 36 jautājumiem, kas balstīti uz `Nezāļu klasifikācija_krāsaina.pdf`: mietsaknes, bārkšsaknes, sakneņi, sakņu dzinumi, virszemes stīgas un tīruma kosas sakneņu tīkls. [Atvērt avota PDF](https://drive.google.com/file/d/1Xs8HXCyRGYLu6-UqWV0m6V45JaAVEz2r/view).
+Iepriekšējā versijā papildināts ar 6 sakņu uzbūves shēmām un 36 jautājumiem, kas balstīti uz `Nezāļu klasifikācija_krāsaina.pdf`: mietsaknes, bārkšsaknes, sakneņi, sakņu dzinumi, virszemes stīgas un tīruma kosas sakneņu tīkls. [Atvērt avota PDF](https://drive.google.com/file/d/1Xs8HXCyRGYLu6-UqWV0m6V45JaAVEz2r/view).
 
 ## GitHub Pages
 
