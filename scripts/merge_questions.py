@@ -40,10 +40,10 @@ source=source.replace("else if(a==='topic'){start(shuffled(Q.filter(q=>q.topic==
  "else if(a==='topic'){let t=e.dataset.topic;if(session&&session.mode==='study'&&session.label===t){go('session')}else if(topicSessions[t]&&topicSessions[t].ids.every(id=>BYID[id])){if(session&&session.mode==='study'&&session.label)topicSessions[session.label]=session;session=topicSessions[t];save();go('session')}else{start(shuffled(Q.filter(q=>q.topic===t)).map(q=>q.id),'study',0,t)}}",1)
 source=source.replace("function start(ids,mode='study',minutes=0,label=''){if(session", "function start(ids,mode='study',minutes=0,label=''){if(session",1)
 # Make accurate totals dynamic rather than hardcoded 221 and 11.
-source=source.replace("221 izstrādāts jautājums","\${Q.length} izstrādāts jautājums")
+source=source.replace("221 izstrādāts jautājums","${Q.length} izstrādāts jautājums")
 source=source.replace("<strong>221</strong>","<strong>\${Q.length}</strong>")
-source=source.replace(" / 221</span>"," / \${Q.length}</span>")
-source=source.replace("11 tematiskas sadaļas","\${TOPICS.length} tematiskas sadaļas")
+source=source.replace(" / 221</span>"," / ${Q.length}</span>")
+source=source.replace("11 tematiskas sadaļas","${TOPICS.length} tematiskas sadaļas")
 # Do not leave the separately published addon as the primary entry.
 index.write_text(source,encoding='utf-8')
 print(f'Pages integrated {added} new questions; {len(data["questions"])} total, {len(set(q["topic"] for q in data["questions"]))} content topics')
