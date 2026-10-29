@@ -26,9 +26,9 @@ Oficiālā VAAD programma: https://www.vaad.gov.lv/lv/otras-registracijas-klases
 
 [Atvērt papildinātās mācības un eksāmenu](https://edgarsdavidsons.github.io/vaad-aal-trenazieris/saknu-sistemas.html)
 
-- 40 papildu jautājumi par nezāļu sakņu sistēmām, klasifikāciju un ierobežošanu.
+- 122 papildu jautājumi 10 tēmās, veidoti no VAAD kursa Google Drive materiāliem (nezāles, saknes, augseka, augšana, AAL klasifikācija, rezistence, latvāņi, drošība).
 - Mācību režīms ar pareizo atbilžu skaidrojumiem un izvēli pa tēmām.
-- Atsevišķa 30 jautājumu eksāmena simulācija, jautājumi nejaušā secībā.
+- Atsevišķa 40 jautājumu eksāmena simulācija, jautājumi nejaušā secībā.
 - Automātiska progresa saglabāšana (`localStorage`): atverot lapu atkal tajā pašā pārlūkā, mācības vai nepabeigtu eksāmenu var turpināt no iepriekšējās vietas.
 - Atsevišķa poga tīšai progresa atiestatīšanai.
 
