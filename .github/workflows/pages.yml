@@ -35,6 +35,16 @@ jobs:
           questions=json.loads(match.group(1))['questions']
           assert len(questions)>=300, f'Expected >=300 questions, got {len(questions)}'
           assert len(set(q['id'] for q in questions)) == len(questions), 'Duplicate question IDs'
+          data=json.loads(match.group(1))
+          assert len(data['weeds']) == 38, 'Weed gallery incomplete'
+          for weed in data['weeds']:
+            key=str(weed['id'])
+            assert data['images'].get(key,'').startswith('data:image/'), f'Broken gallery photo: {key}'
+          for question in questions:
+            if question.get('image'):
+              key=str(question['image'])
+              assert data['images'].get(key,'').startswith('data:image/'), f'Broken image question: {question["id"]}'
+          print('All 38 gallery photos and every illustrated question validated')
           print(f'Validated {len(questions)} questions')
           PY
       - name: Commit unified index to main
