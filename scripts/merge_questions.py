@@ -72,41 +72,61 @@ for q in data['questions']:
     if q.get('source') not in data['sources']:
         q['source']='PRACT'
 
-# Store image bytes as separate static assets. Browser requests only displayed images.
+# Recover original photo payloads from a known historical Git blob.
+# Earlier builds committed image URLs but not the corresponding binary files.
+# Preserve the original source in repository history, and regenerate every asset.
+import subprocess
+historical_blob='9e40c6f2b0de406ef7c0a29dd2acce9366a55b83'
+original=subprocess.check_output(['git','cat-file','blob',historical_blob],cwd=root).decode('utf-8')
+historical_match=re.search(r'<script type="application/json" id="app-data">(.*?)</script>',original,re.S)
+assert historical_match, 'Original image dataset unavailable'
+historical=json.loads(historical_match.group(1))
+original_images=historical.get('images',{})
+assert original_images, 'No original images recovered'
+
+# Rebuild the canonical mapping, including new SVG teaching illustrations.
+for key,value in original_images.items():
+    if isinstance(value,str) and value.startswith('data:'):
+        data['images'][key]=value
+
+# Rebuild each image file from actual payload bytes; never publish dangling URLs.
 asset_dir=root/'assets'/'questions'
 asset_dir.mkdir(parents=True,exist_ok=True)
 for key,value in list(data['images'].items()):
     if not isinstance(value,str) or not value.startswith('data:'):
         continue
-    header, encoded=value.split(',',1)
-    # Keep lightweight SVG illustrations embedded to avoid missing assets.
-    if 'image/svg+xml' in header: continue
-    ext='svg' if 'image/svg+xml' in header else ('png' if 'image/png' in header else ('jpeg' if 'image/jpeg' in header else 'webp'))
-    clean=re.sub(r'[^A-Za-z0-9_-]','_',str(key))
-    filename=f'{clean}.{ext}'
+    header,encoded=value.split(',',1)
+    if 'image/svg+xml' in header:
+        continue
+    ext='png' if 'image/png' in header else ('jpeg' if 'image/jpeg' in header else 'webp')
+    filename=re.sub(r'[^A-Za-z0-9_-]','_',str(key))+'.'+ext
     (asset_dir/filename).write_bytes(base64.b64decode(encoded))
     data['images'][key]='assets/questions/'+filename
 
-# The main renderer uses q.image directly as <img src>. A mapping key is not a URL.
-# Resolve mapped image IDs for every question, including earlier published ADV records.
+# Question.image is an ID in DATA.images, never a direct URL.
+url_to_id={value:key for key,value in data['images'].items() if isinstance(value,str)}
 for question in data['questions']:
-    image_ref=question.get('image')
-    if isinstance(image_ref,str) and image_ref in data['images']:
-        question['image']=data['images'][image_ref]
+    ref=question.get('image')
+    if isinstance(ref,str) and ref not in data['images']:
+        if ref in url_to_id:
+            question['image']=url_to_id[ref]
+        else:
+            stem=Path(ref.split('?',1)[0]).stem
+            if stem in data['images']: question['image']=stem
 
-# Validate that every image reference points to an existing file or valid data URL.
+# Strict image existence checks, including the original weeds.
 missing=[]
 for question in data['questions']:
-    if not question.get('image'): continue
-    key=question['image']
-    value=data['images'].get(key,key)
+    key=question.get('image')
+    if not key: continue
+    value=data['images'].get(key)
     if not value:
-        missing.append((question['id'],key,'no image mapping'))
-    elif isinstance(value,str) and value.startswith('assets/'):
-        if not (root/value).is_file():
-            missing.append((question['id'],key,value))
+        missing.append((question['id'],key,'mapping absent'))
+    elif value.startswith('assets/') and not (root/value).is_file():
+        missing.append((question['id'],key,'file missing'))
 if missing:
-    raise RuntimeError('Missing question images: '+repr(missing[:20]))
+    raise RuntimeError('Missing image assets: '+repr(missing[:25]))
+print(f'Checked {sum(bool(q.get("image")) for q in data["questions"])} image questions; recovered {len(original_images)} original mappings')
 payload=json.dumps(data,ensure_ascii=False,separators=(',',':')).replace('</','<\\/')
 source=source[:m.start(2)]+payload+source[m.end(2):]
 topics=[('Sakņu sistēmas','🌿'),('Nezāļu klasifikācija','🌱'),('Nezāļu ierobežošana','🌾'),('Nezāļu bioloģija','🍃'),('Augu augšana','☀️'),('AAL klasifikācija','🧪'),('Herbicīdu rezistence','🔬'),('AAL drošība','🛡️'),('AAL marķējuma analīze','🏷️'),('Praktiskās situācijas','🧭'),('Vizuālā diagnostika','🔎')]
