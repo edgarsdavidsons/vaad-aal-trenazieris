@@ -72,61 +72,47 @@ for q in data['questions']:
     if q.get('source') not in data['sources']:
         q['source']='PRACT'
 
-# Recover original photo payloads from a known historical Git blob.
-# Earlier builds committed image URLs but not the corresponding binary files.
-# Preserve the original source in repository history, and regenerate every asset.
+# Restore the proven original image contract: DATA.images[q.image] is a data URL.
+# Never transform those references into file paths. The historical blob contains
+# the actual JPEG bytes, unlike the broken generated assets paths.
 import subprocess
 historical_blob='9e40c6f2b0de406ef7c0a29dd2acce9366a55b83'
 original=subprocess.check_output(['git','cat-file','blob',historical_blob],cwd=root).decode('utf-8')
 historical_match=re.search(r'<script type="application/json" id="app-data">(.*?)</script>',original,re.S)
-assert historical_match, 'Original image dataset unavailable'
+if not historical_match:
+    raise RuntimeError('Historical original photo dataset not found')
 historical=json.loads(historical_match.group(1))
 original_images=historical.get('images',{})
-assert original_images, 'No original images recovered'
-
-# Rebuild the canonical mapping, including new SVG teaching illustrations.
+if len(original_images)<38:
+    raise RuntimeError(f'Expected 38 original weed photos, got {len(original_images)}')
 for key,value in original_images.items():
-    if isinstance(value,str) and value.startswith('data:'):
-        data['images'][key]=value
+    if not isinstance(value,str) or not value.startswith('data:image/'):
+        raise RuntimeError(f'Invalid historical image: {key}')
+    data['images'][str(key)]=value
 
-# Rebuild each image file from actual payload bytes; never publish dangling URLs.
-asset_dir=root/'assets'/'questions'
-asset_dir.mkdir(parents=True,exist_ok=True)
-for key,value in list(data['images'].items()):
-    if not isinstance(value,str) or not value.startswith('data:'):
-        continue
-    header,encoded=value.split(',',1)
-    if 'image/svg+xml' in header:
-        continue
-    ext='png' if 'image/png' in header else ('jpeg' if 'image/jpeg' in header else 'webp')
-    filename=re.sub(r'[^A-Za-z0-9_-]','_',str(key))+'.'+ext
-    (asset_dir/filename).write_bytes(base64.b64decode(encoded))
-    data['images'][key]='assets/questions/'+filename
-
-# Question.image is an ID in DATA.images, never a direct URL.
-url_to_id={value:key for key,value in data['images'].items() if isinstance(value,str)}
+# Restore keys for all questions accidentally rewritten to assets/... paths.
+image_urls={v:k for k,v in data['images'].items() if isinstance(v,str)}
 for question in data['questions']:
     ref=question.get('image')
-    if isinstance(ref,str) and ref not in data['images']:
-        if ref in url_to_id:
-            question['image']=url_to_id[ref]
-        else:
-            stem=Path(ref.split('?',1)[0]).stem
-            if stem in data['images']: question['image']=stem
+    if not isinstance(ref,str):
+        continue
+    if ref in data['images']:
+        continue
+    if ref in image_urls:
+        question['image']=image_urls[ref]
+        continue
+    stem=Path(ref.split('?',1)[0]).stem
+    if stem in data['images']:
+        question['image']=stem
 
-# Strict image existence checks, including the original weeds.
-missing=[]
-for question in data['questions']:
-    key=question.get('image')
-    if not key: continue
-    value=data['images'].get(key)
-    if not value:
-        missing.append((question['id'],key,'mapping absent'))
-    elif value.startswith('assets/') and not (root/value).is_file():
-        missing.append((question['id'],key,'file missing'))
-if missing:
-    raise RuntimeError('Missing image assets: '+repr(missing[:25]))
-print(f'Checked {sum(bool(q.get("image")) for q in data["questions"])} image questions; recovered {len(original_images)} original mappings')
+bad=[(q['id'],q.get('image')) for q in data['questions']
+     if q.get('image') and not (
+        isinstance(data['images'].get(str(q['image'])),str)
+        and data['images'][str(q['image'])].startswith('data:image/'))]
+if bad:
+    raise RuntimeError(f'Broken image references: {bad[:20]}')
+print(f'Validated {len(original_images)} original photos and {sum(bool(q.get("image")) for q in data["questions"])} illustrated questions')
+
 payload=json.dumps(data,ensure_ascii=False,separators=(',',':')).replace('</','<\\/')
 source=source[:m.start(2)]+payload+source[m.end(2):]
 topics=[('Sakņu sistēmas','🌿'),('Nezāļu klasifikācija','🌱'),('Nezāļu ierobežošana','🌾'),('Nezāļu bioloģija','🍃'),('Augu augšana','☀️'),('AAL klasifikācija','🧪'),('Herbicīdu rezistence','🔬'),('AAL drošība','🛡️'),('AAL marķējuma analīze','🏷️'),('Praktiskās situācijas','🧭'),('Vizuālā diagnostika','🔎')]
