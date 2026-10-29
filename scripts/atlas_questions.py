@@ -7,17 +7,16 @@ Generation is seeded, so question IDs and option sets stay stable between builds
 import json, random
 from pathlib import Path
 
-T_TEST = 'Skolotājas tests'
 T_PHOTO = 'Nezāļu foto atlants'
 T_ROOT = 'Sakņu sistēmas ↔ augi'
 T_GROUP = 'Bioloģiskās grupas'
 T_BOOK = 'Nezāļu bukleti'
-TOPICS = [(T_TEST, '🧑‍🏫'), (T_PHOTO, '📸'), (T_ROOT, '🌱'), (T_GROUP, '🧬'), (T_BOOK, '📘')]
+TOPICS = [(T_PHOTO, '📸'), (T_ROOT, '🌱'), (T_GROUP, '🧬'), (T_BOOK, '📘')]
 
 SOURCES = {
     'ATLAS': {'title': 'D. Piliksere. Izplatītākās nezāles augkopībā (2022), foto: Hamouz, Bayer, latvijasdaba.lv', 'url': 'https://www.arei.lv/', 'type': 'Nezāļu atlants'},
     'LAPINS': {'title': 'D. Lapiņš (2021) nezāļu sakņu sistēmu attēli', 'url': 'https://www.arei.lv/', 'type': 'Sakņu shēma'},
-    'TEST': {'title': 'Skolotājas Google Forms „Nezāļu tests”', 'url': '#', 'type': 'Skolotājas tests'},
+    'TEST': {'title': 'Skolotājas Google Forms „Nezāļu tests”', 'url': '#', 'type': 'Skolotājas tests (Google Forms)'},
     'BOOK': {'title': 'Latvijā izplatītākās nezāles (bukleti 2016, 2017) un kursa prezentācijas', 'url': 'https://www.arei.lv/', 'type': 'Buklets'},
 }
 
@@ -194,10 +193,10 @@ def build(data, root):
         add(f"ATC-{s['id']}", T_GROUP, 'Attēlā redzamā nezāle ir', correct, [x for x in life_cls if x != correct],
             describe(s), 'ATLAS', img(s['images'][-1]))
 
-    # 7. Teacher's Google Forms test, reproduced with the original images.
+    # 7. Teacher's Google Forms questions, mixed into the matching topics (not a separate section).
     for t in teacher:
         image = img(atlas['testImages'][str(t['n'])]) if str(t['n']) in atlas['testImages'] else None
-        add(f"TT{t['n']:02d}", T_TEST, f"{t['n']}. {t['q']}", t['opts'][0], t['opts'][1:], t['why'], 'TEST', image)
+        add(f"TT{t['n']:02d}", t['topic'], t['q'], t['opts'][0], t['opts'][1:], t['why'], 'TEST', image)
 
     # 8. Booklet facts.
     extra = atlas['extraImages']

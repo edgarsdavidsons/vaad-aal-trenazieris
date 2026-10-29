@@ -49,8 +49,8 @@ GitHub repozitorijā atveriet **Settings → Pages**, izvēlieties **Deploy from
 ## Nezāļu atlants un skolotājas testa formāts
 
 - **Nezāļu atlants** (izvēlnē): 82 nezāles ar foto no `materiali/` (D. Piliksere 2022; Hamouz, Bayer, latvijasdaba.lv), sagrupētas pēc sakņu sistēmas (mietsakne, bārkšsaknes, sakneņi, sakņu dzinumi, stīgas, bumbuļi, sīpoli) un pēc bioloģiskās grupas. Katrai sakņu sistēmai redzami visi augi, katram augam tā sakņu sistēma. Iekļauti D. Lapiņa (2021) sakņu zīmējumi ar slēptām atbildēm.
-- **Jaunas tēmas**: Skolotājas tests (oriģinālie 21 jautājumi ar bildēm), Nezāļu foto atlants, Sakņu sistēmas ↔ augi (abos virzienos), Bioloģiskās grupas, Nezāļu bukleti (2016/2017 fakti).
-- **Tests skolotājas formātā**: eksāmena sadaļā – nejauši 21 jautājums (foto, sakņu zīmējumi, grupas, fakti), 25 min; un oriģinālais tests.
+- **Jaunas tēmas**: Nezāļu foto atlants, Sakņu sistēmas ↔ augi (abos virzienos), Bioloģiskās grupas, Nezāļu bukleti (2016/2017 fakti).
+- **Tests skolotājas formātā**: eksāmena sadaļā – nejauši 21 jautājums (foto, sakņu zīmējumi, grupas, fakti), 25 min. Skolotājas Google Forms jautājumi nav atsevišķa sadaļa – tie iepīti atbilstošajās tēmās.
 
 Atlanta attēli glabājas `assets/atlas/`, dati `data/atlas.json`. Tos ģenerē lokāli no `materiali/` (mape nav repozitorijā):
 

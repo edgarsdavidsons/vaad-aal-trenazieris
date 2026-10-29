@@ -174,14 +174,13 @@ return html||'<div class="empty-state"><span class="emoji">🔍</span><h3>Augs n
 function atlasCard(s){let g=ATLAS.groups[s.group],r=ATLAS.roots[s.root];
 return `<div class="atlas-card"><div class="atlas-pics">${s.images.map(k=>`<img src="${DATA.images[k]}" loading="lazy" alt="${esc(s.name)}"/>`).join('')}</div><b>${esc(s.name)}</b><i>${esc(s.latin)}</i><small>${esc(g.life==='Barošanās veids'?g.name:`${g.life} · ${g.name}`)} · ${esc(s.cls)}</small>${r?`<small class="atlas-root">🌱 ${esc(r.name)}</small>`:''}${s.rootNote?`<small>${esc(s.rootNote)}</small>`:''}</div>`}
 function pickTeacher(){let used=new Set(),take=(f,n)=>shuffled(Q.filter(q=>f(q)&&!used.has(q.id))).slice(0,n).map(q=>(used.add(q.id),q.id));
-return shuffled([...take(q=>q.topic==='Nezāļu foto atlants',7),...take(q=>q.id.startsWith('ATD-')||(q.id.startsWith('ATR-')&&!!q.image),4),...take(q=>q.topic==='Sakņu sistēmas ↔ augi'&&!q.image,2),...take(q=>q.id.startsWith('ATC-'),2),...take(q=>q.topic==='Nezāļu bukleti',4),...take(q=>q.topic==='Skolotājas tests',2)])}
+return shuffled([...take(q=>q.topic==='Nezāļu foto atlants',7),...take(q=>q.id.startsWith('ATD-')||(q.id.startsWith('ATR-')&&!!q.image),4),...take(q=>q.topic==='Sakņu sistēmas ↔ augi'&&!q.image,2),...take(q=>q.id.startsWith('ATC-'),2),...take(q=>q.topic==='Nezāļu bukleti'||q.topic==='Herbicīdu rezistence',6)])}
 function renderHome(){""")
-patch("<div class=\"root-callout\"><span>🌿</span>","""<div class="root-callout"><span>🧑‍🏫</span><div><strong>Jauns: nezāļu atlants un skolotājas testa formāts</strong><p>${ATLAS.species.length} nezāles ar foto, visi augi katrai sakņu sistēmai un oriģinālais 21 jautājuma „Nezāļu tests”.</p></div><button data-action="atlas" class="btn btn-primary">Atlants →</button><button data-action="teacherExam" class="btn btn-outline">Tests →</button></div>
+patch("<div class=\"root-callout\"><span>🌿</span>","""<div class="root-callout"><span>🧑‍🏫</span><div><strong>Jauns: nezāļu atlants un tests skolotājas formātā</strong><p>${ATLAS.species.length} nezāles ar foto, visi augi katrai sakņu sistēmai un 21 jautājuma nezāļu tests tādā formātā kā skolotājas „Nezāļu tests”.</p></div><button data-action="atlas" class="btn btn-primary">Atlants →</button><button data-action="teacherExam" class="btn btn-outline">Tests →</button></div>
 <div class="root-callout"><span>🌿</span>""")
-patch("${btn('startExam','Sākt eksāmenu →','btn-primary btn-xl')}","${btn('startExam','Sākt eksāmenu →','btn-primary btn-xl')} ${btn('teacherExam','Tests skolotājas formātā (21 jaut., 25 min) →','btn-outline btn-xl')} ${btn('teacherOriginal','Oriģinālais skolotājas tests →','btn-light btn-xl')}")
+patch("${btn('startExam','Sākt eksāmenu →','btn-primary btn-xl')}","${btn('startExam','Sākt eksāmenu →','btn-primary btn-xl')} ${btn('teacherExam','Tests skolotājas formātā (21 jaut., 25 min) →','btn-outline btn-xl')}")
 patch("else if(a==='rootsQuiz')","""else if(a==='atlasMode'){atlasMode=e.dataset.mode;render()}
 else if(a==='teacherExam'){start(pickTeacher(),'exam',25,'Skolotājas formāta tests')}
-else if(a==='teacherOriginal'){start(Q.filter(q=>q.topic==='Skolotājas tests').map(q=>q.id).sort(),'exam',25,'Skolotājas tests')}
 else if(a==='rootsQuiz')""")
 patch("document.addEventListener('input',e=>{","document.addEventListener('input',e=>{if(e.target.id==='atlasSearch'){atlasFilter=e.target.value;document.getElementById('atlasList').innerHTML=atlasRows()}")
 patch("</head>","""<style>
