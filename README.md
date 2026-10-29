@@ -6,7 +6,7 @@ Tīmekļa trenažieris sagatavošanās mācībām augu aizsardzības līdzekļu 
 Kad aktivizēts GitHub Pages: https://edgarsdavidsons.github.io/vaad-aal-trenazieris/
 
 ## Iespējas
-- 221 treniņjautājums (183 teksta jautājumi un 38 nezāļu attēlu atpazīšanas jautājumi).
+- Galvenā jautājumu banka tiek papildināta automātiski no kursa un praktisko uzdevumu datiem; ietver attēlu atpazīšanu, marķējumu analīzi, aprēķinus un situāciju uzdevumus.
 - Mācību režīms pa tēmām, eksāmena simulācija un kļūdu atkārtošana.
 - Atbilžu skaidrojumi, rezultātu vēsture, progresa pārskats.
 - Progress glabājas atsevišķi katra lietotāja pārlūkā (localStorage); konts nav nepieciešams.
@@ -22,9 +22,9 @@ Trenažierī ietverti arī attēli no mācību materiāliem. Pirms to tālākas 
 
 Oficiālā VAAD programma: https://www.vaad.gov.lv/lv/otras-registracijas-klases-aal-lietotaju-macibas-apraksts-un-programma
 
-## Jaunā papildinātā mācību un eksāmena sadaļa
+## Galvenā trenažiera papildinājumi
 
-[Atvērt papildinātās mācības un eksāmenu](https://edgarsdavidsons.github.io/vaad-aal-trenazieris/saknu-sistemas.html)
+Visi jauno tēmu jautājumi tiek integrēti [galvenajā trenažierī](https://edgarsdavidsons.github.io/vaad-aal-trenazieris/) izvietošanas laikā.
 
 - 122 papildu jautājumi 10 tēmās, veidoti no VAAD kursa Google Drive materiāliem (nezāles, saknes, augseka, augšana, AAL klasifikācija, rezistence, latvāņi, drošība).
 - Mācību režīms ar pareizo atbilžu skaidrojumiem un izvēli pa tēmām.
@@ -32,7 +32,7 @@ Oficiālā VAAD programma: https://www.vaad.gov.lv/lv/otras-registracijas-klases
 - Automātiska progresa saglabāšana (`localStorage`): atverot lapu atkal tajā pašā pārlūkā, mācības vai nepabeigtu eksāmenu var turpināt no iepriekšējās vietas.
 - Atsevišķa poga tīšai progresa atiestatīšanai.
 
-**Piezīme:** pagaidām šī sadaļa darbojas kā atsevišķa lapa. Tā nav vēl apvienota galvenās `index.html` eksāmena jautājumu bankā.
+**Piezīme:** `scripts/merge_questions.py` pievieno jautājumus galvenajā `index.html`, nodrošina tēmu sarakstu un izvairās no identisku jautājumu dublikātiem.
 
 ## Nezāļu sakņu sistēmas
 
@@ -41,3 +41,7 @@ Iepriekšējā versijā papildināts ar 6 sakņu uzbūves shēmām un 36 jautāj
 ## GitHub Pages
 
 GitHub repozitorijā atveriet **Settings → Pages**, izvēlieties **Deploy from a branch**, `main` un `/(root)`, tad saglabājiet. Pēc publicēšanas plānotā adrese ir https://edgarsdavidsons.github.io/vaad-aal-trenazieris/ .
+
+## Četri praktisko uzdevumu veidi
+
+`data/advanced_questions.json` satur 76 jaunus uzdevumus: 30 smidzināšanas aprēķinus, 16 marķējuma un GHS jautājumus, 20 praktiskas situācijas, 10 vizuālas sakņu sistēmu atpazīšanas shēmas. Vizuālie attēli ir oriģinālas izglītojošas SVG ilustrācijas, nevis lauka fotogrāfijas vai oficiālu produktu etiķešu attēli. Sākotnējās nezāļu fotogrāfijas paliek galvenajā trenažierī. Visi jaunie jautājumi ir mācību materiāli, nevis oficiālie VAAD eksāmena jautājumi.
