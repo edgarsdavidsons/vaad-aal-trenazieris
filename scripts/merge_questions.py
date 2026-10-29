@@ -87,12 +87,19 @@ for key,value in list(data['images'].items()):
     (asset_dir/filename).write_bytes(base64.b64decode(encoded))
     data['images'][key]='assets/questions/'+filename
 
+# The main renderer uses q.image directly as <img src>. A mapping key is not a URL.
+# Resolve mapped image IDs for every question, including earlier published ADV records.
+for question in data['questions']:
+    image_ref=question.get('image')
+    if isinstance(image_ref,str) and image_ref in data['images']:
+        question['image']=data['images'][image_ref]
+
 # Validate that every image reference points to an existing file or valid data URL.
 missing=[]
 for question in data['questions']:
     if not question.get('image'): continue
     key=question['image']
-    value=data['images'].get(key)
+    value=data['images'].get(key,key)
     if not value:
         missing.append((question['id'],key,'no image mapping'))
     elif isinstance(value,str) and value.startswith('assets/'):
