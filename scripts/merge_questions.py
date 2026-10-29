@@ -50,7 +50,7 @@ for i,q in enumerate(advanced,1):
     item=dict(id=f'ADV{i:03}',topic=q['topic'],q=q['q'],opts=q['opts'],why=q['why'],source='PRACT')
     if q.get('visual'):
         key='ADVIMG_'+q['visual']
-        if key not in data['images']: data['images'][key]=svg_image(q['visual'])
+        data['images'][key]=svg_image(q['visual'])
         item['image']=key
     new.append(item)
 
@@ -103,6 +103,8 @@ for question in data['questions']:
         continue
     stem=Path(ref.split('?',1)[0]).stem
     if stem in data['images']:
+        question['image']=stem
+    elif ref.startswith('assets/questions/') and 'ADVIMG_' in ref:
         question['image']=stem
 
 bad=[(q['id'],q.get('image')) for q in data['questions']
