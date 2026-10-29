@@ -207,7 +207,14 @@ patch("document.addEventListener('click',e=>{","document.addEventListener('click
 patch("document.addEventListener('keydown',e=>{","document.addEventListener('keydown',e=>{if(lightbox){if(e.key==='Escape'){lightbox=null;drawZoom()}else if(e.key==='ArrowRight')stepZoom(1);else if(e.key==='ArrowLeft')stepZoom(-1);return}")
 patch('class="question-photo"','class="question-photo" data-action="zoom" data-src="${DATA.images[q.image]}" title="Spied, lai palielinātu"')
 patch("document.addEventListener('input',e=>{","document.addEventListener('input',e=>{if(e.target.id==='atlasSearch'){atlasFilter=e.target.value;document.getElementById('atlasList').innerHTML=atlasRows()}")
+# Question navigation: on phones it was stacked above the question and showed every number
+# (100+ in topic study), pushing the question off screen. Collapse it and keep it below the question.
+patch('<aside class="panel quiz-aside">','<aside class="panel quiz-aside ${ex?\'is-exam\':\'\'}">')
+patch('<div class="palette">${palette}</div>','<details class="palette-box" ${matchMedia(\'(min-width:781px)\').matches?\'open\':\'\'}><summary>Visi jautājumi (${session.ids.length})</summary><div class="palette">${palette}</div></details>')
 patch("</head>","""<style>
+.palette-box summary{cursor:pointer;font-size:12px;font-weight:800;color:var(--green);margin-top:12px}
+.palette-box[open] summary{margin-bottom:-4px}
+@media(max-width:780px){.quiz-aside{order:1}.quiz-aside.is-exam{order:-1}.quiz-aside .palette-box summary{margin-top:6px}}
 .atlas-tabs{display:flex;gap:8px;flex-wrap:wrap}
 .atlas-sec{padding:20px 22px;margin-bottom:16px}
 .atlas-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
