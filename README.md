@@ -21,3 +21,11 @@ Atveriet `Settings → Pages → Build and deployment`, izvēlieties `Deploy fro
 Trenažierī ietverti arī attēli no mācību materiāliem. Pirms to tālākas pārpublicēšanas vai komerciālas izmantošanas jāpārliecinās par atbilstošajām izmantošanas tiesībām.
 
 Oficiālā VAAD programma: https://www.vaad.gov.lv/lv/otras-registracijas-klases-aal-lietotaju-macibas-apraksts-un-programma
+
+## Nezāļu sakņu sistēmas
+
+Papildināts ar 6 sakņu uzbūves shēmām un 36 jautājumiem, kas balstīti uz `Nezāļu klasifikācija_krāsaina.pdf`: mietsaknes, bārkšsaknes, sakneņi, sakņu dzinumi, virszemes stīgas un tīruma kosas sakneņu tīkls. [Atvērt avota PDF](https://drive.google.com/file/d/1Xs8HXCyRGYLu6-UqWV0m6V45JaAVEz2r/view).
+
+## GitHub Pages
+
+GitHub repozitorijā atveriet **Settings → Pages**, izvēlieties **Deploy from a branch**, `main` un `/(root)`, tad saglabājiet. Pēc publicēšanas plānotā adrese ir https://edgarsdavidsons.github.io/vaad-aal-trenazieris/ .
