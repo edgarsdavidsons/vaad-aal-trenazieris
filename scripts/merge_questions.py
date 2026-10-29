@@ -62,6 +62,29 @@ for q in new:
     data['questions'].append(q)
     seen.add(normalized); ids.add(q['id']); added+=1
 
+# Ensure every question's source is readable by the main UI.
+data['sources'].setdefault('PRACT', {
+    'title':'Praktiskie mācību uzdevumi un oriģinālās shēmas',
+    'url':'https://www.vaad.gov.lv/lv/macibas-un-apliecibas',
+    'type':'Mācību uzdevums'
+})
+for q in data['questions']:
+    if q.get('source') not in data['sources']:
+        q['source']='PRACT'
+
+# Store image bytes as separate static assets. Browser requests only displayed images.
+asset_dir=root/'assets'/'questions'
+asset_dir.mkdir(parents=True,exist_ok=True)
+for key,value in list(data['images'].items()):
+    if not isinstance(value,str) or not value.startswith('data:'):
+        continue
+    header, encoded=value.split(',',1)
+    ext='svg' if 'image/svg+xml' in header else ('png' if 'image/png' in header else ('jpeg' if 'image/jpeg' in header else 'webp'))
+    clean=re.sub(r'[^A-Za-z0-9_-]','_',str(key))
+    filename=f'{clean}.{ext}'
+    (asset_dir/filename).write_bytes(base64.b64decode(encoded))
+    data['images'][key]='assets/questions/'+filename
+
 payload=json.dumps(data,ensure_ascii=False,separators=(',',':')).replace('</','<\\/')
 source=source[:m.start(2)]+payload+source[m.end(2):]
 topics=[('Sakņu sistēmas','🌿'),('Nezāļu klasifikācija','🌱'),('Nezāļu ierobežošana','🌾'),('Nezāļu bioloģija','🍃'),('Augu augšana','☀️'),('AAL klasifikācija','🧪'),('Herbicīdu rezistence','🔬'),('AAL drošība','🛡️'),('AAL marķējuma analīze','🏷️'),('Praktiskās situācijas','🧭'),('Vizuālā diagnostika','🔎')]
@@ -79,6 +102,7 @@ source=source.replace(old,replacement,1)
 
 # Replace stale hard-coded bank totals with current data counts.
 source=source.replace('<strong>221</strong>','<strong>${Q.length}</strong>').replace(' / 221</span>',' / ${Q.length}</span>')
+source=source.replace('221 izstrādāts jautājums','Daudzveidīgi mācību jautājumi')
 source=source.replace('11 tematiskas sadaļas','${TOPICS.length} tematiskas sadaļas')
 source=source.replace('213 teksta + 38 foto + 6 sakņu shēmas','Dažādi jautājumi, foto un shēmas')
 page.write_text(source,encoding='utf-8')
