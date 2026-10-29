@@ -1,0 +1,1217 @@
+{
+ "groups": {
+  "efemera": {
+   "name": "Efemērā",
+   "life": "Īsmūža",
+   "desc": "Īss attīstības cikls; vienā veģetācijas periodā var dot vairākas paaudzes."
+  },
+  "agra_vasaras": {
+   "name": "Agrīnā vasaras",
+   "life": "Īsmūža",
+   "desc": "Vairojas ar sēklām, galvenokārt dīgst pavasarī."
+  },
+  "vela_vasaras": {
+   "name": "Vēlīnā vasaras",
+   "life": "Īsmūža",
+   "desc": "Vairojas ar sēklām; pastiprināti dīgst tikai vasaras otrajā pusē un rudenī."
+  },
+  "ziemotspejiga": {
+   "name": "Ziemotspējīgā",
+   "life": "Īsmūža",
+   "desc": "Sadīgstot rudenī, pārziemo rozetes stāvoklī; pavasara dīgsti attīstās kā vasaras nezāles, pārziemošana nav obligāta."
+  },
+  "ziemas": {
+   "name": "Ziemas",
+   "life": "Īsmūža",
+   "desc": "Dīgst rudenī; ziemošana sēklu ražošanai obligāta."
+  },
+  "divgadiga": {
+   "name": "Divgadīgā",
+   "life": "Īsmūža",
+   "desc": "Pirmajā gadā saknēs uzkrāj barības rezerves, otrajā zied un nogatavina sēklas."
+  },
+  "barksaknu": {
+   "name": "Bārkšsakņu",
+   "life": "Daudzgadīgā",
+   "desc": "Vairojas galvenokārt ar sēklām, iespējama arī veģetatīvā vairošanās; spēcīgas bārkšsaknes."
+  },
+  "mietsaknu": {
+   "name": "Mietsakņu",
+   "life": "Daudzgadīgā",
+   "desc": "Vairojas galvenokārt ar sēklām, iespējama arī veģetatīvā vairošanās; izteikta mietsakne."
+  },
+  "saknenu": {
+   "name": "Sakneņu",
+   "life": "Daudzgadīgā",
+   "desc": "Raksturīga veģetatīvā vairošanās ar sakneņiem (pazemes stumbriem ar pumpuriem)."
+  },
+  "saknu_dzinumu": {
+   "name": "Sakņu dzinumu",
+   "life": "Daudzgadīgā",
+   "desc": "Raksturīga veģetatīvā vairošanās ar dzinumiem no pumpuriem uz dziļām saknēm."
+  },
+  "stigojosa": {
+   "name": "Stīgojošā",
+   "life": "Daudzgadīgā",
+   "desc": "Vairojas ar virszemes stīgām, kas mezglos iesakņojas."
+  },
+  "bumbulu": {
+   "name": "Bumbuļu",
+   "life": "Daudzgadīgā",
+   "desc": "Vairojas ar bumbuļiem, kas atrodas sakņu galos."
+  },
+  "sipolu": {
+   "name": "Sīpolu",
+   "life": "Daudzgadīgā",
+   "desc": "Vairojas ar sīpoliem."
+  },
+  "pusparazits": {
+   "name": "Pusparazītiskā",
+   "life": "Barošanās veids",
+   "desc": "Pati fotosintezē, bet daļu ūdens un barības vielu iegūst no saimniekauga saknēm."
+  },
+  "parazits": {
+   "name": "Parazītiskā",
+   "life": "Barošanās veids",
+   "desc": "Bez hlorofila; visas barības vielas iegūst no saimniekauga."
+  }
+ },
+ "roots": {
+  "mietsakne_ism": {
+   "name": "Mietsakne (īsmūža divdīgļlapji)",
+   "short": "mietsakne",
+   "desc": "Īsmūža divdīgļlapju nezālēm raksturīga mietsakne, vairāk vai mazāk zaraina. Balandai, zvērei, akļiem viegli izraujama; liektajam amarantam, sīkgalvītei, melnajai naktenei – stipri zaraina un dziļa."
+  },
+  "barksaknes_ism": {
+   "name": "Bārkšsaknes (īsmūža viendīgļlapji)",
+   "short": "bārkšsaknes",
+   "desc": "Īsmūža viendīgļlapju (stiebrzāļu) nezālēm – plaši sazarota bārkšsakņu sistēma, kas spēcīgi saaug jau cerošanas fāzē (piem., parastā gaiļsāre)."
+  },
+  "barksaknes": {
+   "name": "Bārkšsaknes (daudzgadīgās)",
+   "short": "bārkšsaknes",
+   "desc": "Daudzgadīgās bārkšsakņu nezāles veido spēcīgu bārkšsakņu sistēmu; vairojas galvenokārt ar sēklām."
+  },
+  "mietsakne": {
+   "name": "Mietsakne (daudzgadīgās)",
+   "short": "mietsakne",
+   "desc": "Daudzgadīgās mietsakņu nezāles – izteikta, bieži resna mietsakne ar barības vielu rezervēm; vairojas galvenokārt ar sēklām."
+  },
+  "sakneni": {
+   "name": "Sakneņi",
+   "short": "sakneņi",
+   "desc": "Sakneņi ir pazemes stumbri ar pumpuriem. Vārpatai tie ir aramkārtā (5–15 cm), māllēpei daudz dziļāk (0,8–1,0 m) vairākos stāvos."
+  },
+  "saknu_dzinumi": {
+   "name": "Sakņu dzinumi",
+   "short": "sakņu dzinumi",
+   "desc": "Jauni dzinumi veidojas no pumpuriem uz saknēm, kas parasti izvietotas ļoti dziļi (izņemot tīruma mīkstpieni)."
+  },
+  "stigas": {
+   "name": "Virszemes stīgas",
+   "short": "stīgas",
+   "desc": "Ložņājoši virszemes dzinumi, kas mezglos iesakņojas; veido arī spēcīgas bārkšsaknes."
+  },
+  "bumbuli": {
+   "name": "Bumbuļi sakņu galos",
+   "short": "bumbuļi",
+   "desc": "Bumbuļu nezāles vairojas ar bumbuļiem, kas atrodas sakņu (pazemes dzinumu) galos."
+  },
+  "sipoli": {
+   "name": "Sīpoli",
+   "short": "sīpoli",
+   "desc": "Vairojas ar sīpoliem."
+  }
+ },
+ "species": [
+  {
+   "id": "parasta_virza",
+   "name": "Parastā virza",
+   "latin": "Stellaria media",
+   "group": "efemera",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/parasta_virza_1.jpg",
+    "assets/atlas/parasta_virza_2.jpg",
+    "assets/atlas/parasta_virza_3.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "akli",
+   "name": "Akļi",
+   "latin": "Galeopsis spp.",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/akli_1.jpg",
+    "assets/atlas/akli_2.jpg",
+    "assets/atlas/akli_3.jpg"
+   ],
+   "root": "mietsakne_ism",
+   "rootNote": "Neliela, viegli izraujama mietsakne."
+  },
+  {
+   "id": "arstniecibas_matuzale",
+   "name": "Ārstniecības matuzāle",
+   "latin": "Fumaria officinalis",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/arstniecibas_matuzale_1.jpg",
+    "assets/atlas/arstniecibas_matuzale_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "balta_balanda",
+   "name": "Baltā balanda",
+   "latin": "Chenopodium album",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/balta_balanda_1.jpg",
+    "assets/atlas/balta_balanda_2.jpg"
+   ],
+   "root": "mietsakne_ism",
+   "rootNote": "Neliela, viegli izraujama mietsakne (Lapiņš, 39. att. A)."
+  },
+  {
+   "id": "darza_mikstpiene",
+   "name": "Dārza mīkstpiene",
+   "latin": "Sonchus oleraceus",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/darza_mikstpiene_1.jpg",
+    "assets/atlas/darza_mikstpiene_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "darza_vejagrikis",
+   "name": "Dārza vējagriķis",
+   "latin": "Fallopia convolvulus",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/darza_vejagrikis_1.jpg",
+    "assets/atlas/darza_vejagrikis_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "izplesta_balodene",
+   "name": "Izplestā balodene",
+   "latin": "Atriplex patula",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/izplesta_balodene_1.jpg",
+    "assets/atlas/izplesta_balodene_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "kodiga_natre",
+   "name": "Kodīgā nātre",
+   "latin": "Urtica urens",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/kodiga_natre_1.jpg",
+    "assets/atlas/kodiga_natre_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "kerainu_madara",
+   "name": "Ķeraiņu madara",
+   "latin": "Galium aparine",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/kerainu_madara_1.jpg",
+    "assets/atlas/kerainu_madara_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "maura_kumelite",
+   "name": "Maura kumelīte",
+   "latin": "Matricaria discoidea",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/maura_kumelite_1.jpg",
+    "assets/atlas/maura_kumelite_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "maura_surene",
+   "name": "Maura sūrene",
+   "latin": "Polygonum aviculare",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/maura_surene_1.jpg",
+    "assets/atlas/maura_surene_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "melna_naktene",
+   "name": "Melnā naktene",
+   "latin": "Solanum nigrum",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/melna_naktene_1.jpg",
+    "assets/atlas/melna_naktene_2.jpg"
+   ],
+   "root": "mietsakne_ism",
+   "rootNote": "Jau dīgstu stadijā stipri zaraina, plaši un dziļi ejoša sakņu sistēma."
+  },
+  {
+   "id": "parasta_krustaine",
+   "name": "Parastā krustaine",
+   "latin": "Senecio vulgaris",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/parasta_krustaine_1.jpg",
+    "assets/atlas/parasta_krustaine_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "saules_dievkreslins",
+   "name": "Saules dievkrēsliņš",
+   "latin": "Euphorbia helioscopia",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/saules_dievkreslins_1.jpg",
+    "assets/atlas/saules_dievkreslins_2.jpg"
+   ],
+   "root": "mietsakne_ism",
+   "rootNote": "Neliela, viegli izraujama mietsakne."
+  },
+  {
+   "id": "sarta_panatre",
+   "name": "Sārtā panātre",
+   "latin": "Lamium purpureum",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/sarta_panatre_1.jpg",
+    "assets/atlas/sarta_panatre_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "sika_gandrene",
+   "name": "Sīkā gandrene",
+   "latin": "Aethusa cynapium",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/sika_gandrene_1.jpg",
+    "assets/atlas/sika_gandrene_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "skabenlapu_surene",
+   "name": "Skābeņlapu sūrene",
+   "latin": "Persicaria lapathifolia",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/skabenlapu_surene_1.jpg",
+    "assets/atlas/skabenlapu_surene_2.jpg"
+   ],
+   "root": "mietsakne_ism",
+   "rootNote": "Neliela, viegli izraujama mietsakne."
+  },
+  {
+   "id": "tiruma_aitene",
+   "name": "Tīruma aitene",
+   "latin": "Anchusa arvensis",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/tiruma_aitene_1.jpg",
+    "assets/atlas/tiruma_aitene_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "tiruma_gaurs",
+   "name": "Tīruma gaurs",
+   "latin": "Spergula arvensis",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/tiruma_gaurs_1.jpg",
+    "assets/atlas/tiruma_gaurs_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "tiruma_pavirza",
+   "name": "Tīruma pavirza",
+   "latin": "Anagallis arvensis",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/tiruma_pavirza_1.jpg",
+    "assets/atlas/tiruma_pavirza_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "tiruma_perkone",
+   "name": "Tīruma pērkone",
+   "latin": "Raphanus raphanistrum",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/tiruma_perkone_1.jpg",
+    "assets/atlas/tiruma_perkone_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "tiruma_sinepe_zvere",
+   "name": "Tīruma sinepe (zvēre)",
+   "latin": "Sinapis arvensis",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/tiruma_sinepe_zvere_1.jpg",
+    "assets/atlas/tiruma_sinepe_zvere_2.jpg"
+   ],
+   "root": "mietsakne_ism",
+   "rootNote": "Neliela, viegli izraujama mietsakne."
+  },
+  {
+   "id": "trejdaivu_sunitis",
+   "name": "Trejdaivu sunītis",
+   "latin": "Bidens tripartita",
+   "group": "agra_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/trejdaivu_sunitis_1.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "airenes",
+   "name": "Airenes",
+   "latin": "Lolium spp.",
+   "group": "agra_vasaras",
+   "cls": "viendīgļlapis",
+   "images": [
+    "assets/atlas/airenes_1.jpg",
+    "assets/atlas/airenes_2.jpg"
+   ],
+   "root": "barksaknes_ism"
+  },
+  {
+   "id": "maura_skarene",
+   "name": "Maura skarene",
+   "latin": "Poa annua",
+   "group": "agra_vasaras",
+   "cls": "viendīgļlapis",
+   "images": [
+    "assets/atlas/maura_skarene_1.jpg",
+    "assets/atlas/maura_skarene_2.jpg"
+   ],
+   "root": "barksaknes_ism"
+  },
+  {
+   "id": "vejauza",
+   "name": "Vējauza",
+   "latin": "Avena fatua",
+   "group": "agra_vasaras",
+   "cls": "viendīgļlapis",
+   "images": [
+    "assets/atlas/vejauza_1.jpg",
+    "assets/atlas/vejauza_2.jpg"
+   ],
+   "root": "barksaknes_ism"
+  },
+  {
+   "id": "liektais_amarants",
+   "name": "Liektais amarants",
+   "latin": "Amaranthus retroflexus",
+   "group": "vela_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/liektais_amarants_1.jpg",
+    "assets/atlas/liektais_amarants_2.jpg"
+   ],
+   "root": "mietsakne_ism",
+   "rootNote": "Jau dīgstu stadijā stipri zaraina, plaši un dziļi augsnē ejoša mietsakne."
+  },
+  {
+   "id": "sikziedu_sikgalvite",
+   "name": "Sīkziedu sīkgalvīte",
+   "latin": "Galinsoga parviflora",
+   "group": "vela_vasaras",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/sikziedu_sikgalvite_1.jpg",
+    "assets/atlas/sikziedu_sikgalvite_2.jpg"
+   ],
+   "root": "mietsakne_ism",
+   "rootNote": "Jau dīgstu stadijā stipri zaraina, plaši un dziļi ejoša sakņu sistēma (Lapiņš, 39. att. B)."
+  },
+  {
+   "id": "parasta_gailsare",
+   "name": "Parastā gaiļsāre",
+   "latin": "Echinochloa crus-galli",
+   "group": "vela_vasaras",
+   "cls": "viendīgļlapis",
+   "images": [
+    "assets/atlas/parasta_gailsare_1.jpg",
+    "assets/atlas/parasta_gailsare_2.jpg"
+   ],
+   "root": "barksaknes_ism",
+   "rootNote": "Plaši sazarota bārkšsakņu sistēma, kas spēcīgi saaug jau cerošanas fāzē (Lapiņš, 39. att. C)."
+  },
+  {
+   "id": "zala_sarene",
+   "name": "Zaļā sarene",
+   "latin": "Setaria viridis",
+   "group": "vela_vasaras",
+   "cls": "viendīgļlapis",
+   "images": [
+    "assets/atlas/zala_sarene_1.jpg",
+    "assets/atlas/zala_sarene_2.jpg"
+   ],
+   "root": "barksaknes_ism"
+  },
+  {
+   "id": "lauka_magone",
+   "name": "Lauka magone",
+   "latin": "Papaver dubium",
+   "group": "ziemotspejiga",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/lauka_magone_1.jpg",
+    "assets/atlas/lauka_magone_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "ganu_plikstins",
+   "name": "Ganu plikstiņš",
+   "latin": "Capsella bursa-pastoris",
+   "group": "ziemotspejiga",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/ganu_plikstins_1.jpg",
+    "assets/atlas/ganu_plikstins_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "parasta_grabeklite",
+   "name": "Parastā grābeklīte",
+   "latin": "Erodium cicutarium",
+   "group": "ziemotspejiga",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/parasta_grabeklite_1.jpg",
+    "assets/atlas/parasta_grabeklite_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "parasta_perkonene",
+   "name": "Parastā pērkonene",
+   "latin": "Erysimum cheiranthoides",
+   "group": "ziemotspejiga",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/parasta_perkonene_1.jpg"
+   ],
+   "root": "mietsakne_ism",
+   "rootNote": "Neliela, viegli izraujama mietsakne."
+  },
+  {
+   "id": "parasta_rudzupuke",
+   "name": "Parastā rudzupuķe",
+   "latin": "Centaurea cyanus",
+   "group": "ziemotspejiga",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/parasta_rudzupuke_1.jpg",
+    "assets/atlas/parasta_rudzupuke_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "parasta_smalkzodzene",
+   "name": "Parastā smalkžodzene",
+   "latin": "Descurainia sophia",
+   "group": "ziemotspejiga",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/parasta_smalkzodzene_1.jpg",
+    "assets/atlas/parasta_smalkzodzene_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "tiruma_ilzite",
+   "name": "Tīruma ilzīte",
+   "latin": "Anthemis arvensis",
+   "group": "ziemotspejiga",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/tiruma_ilzite_1.jpg",
+    "assets/atlas/tiruma_ilzite_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "tiruma_kumelite",
+   "name": "Tīruma kumelīte",
+   "latin": "Tripleurospermum inodorum",
+   "group": "ziemotspejiga",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/tiruma_kumelite_1.jpg",
+    "assets/atlas/tiruma_kumelite_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "tiruma_naudulis",
+   "name": "Tīruma naudulis",
+   "latin": "Thlaspi arvense",
+   "group": "ziemotspejiga",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/tiruma_naudulis_1.jpg",
+    "assets/atlas/tiruma_naudulis_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "tiruma_neaizmirstulite",
+   "name": "Tīruma neaizmirstulīte",
+   "latin": "Myosotis arvensis",
+   "group": "ziemotspejiga",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/tiruma_neaizmirstulite_1.jpg",
+    "assets/atlas/tiruma_neaizmirstulite_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "tiruma_veronika",
+   "name": "Tīruma veronika",
+   "latin": "Veronica arvensis",
+   "group": "ziemotspejiga",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/tiruma_veronika_1.jpg",
+    "assets/atlas/tiruma_veronika_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "tiruma_vijolite",
+   "name": "Tīruma vijolīte",
+   "latin": "Viola arvensis",
+   "group": "ziemotspejiga",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/tiruma_vijolite_1.jpg",
+    "assets/atlas/tiruma_vijolite_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "tiruma_zilausis",
+   "name": "Tīruma zilausis",
+   "latin": "Lithospermum arvense",
+   "group": "ziemotspejiga",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/tiruma_zilausis_1.jpg",
+    "assets/atlas/tiruma_zilausis_2.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "parasta_rudzusmilga",
+   "name": "Parastā rudzusmilga",
+   "latin": "Apera spica-venti",
+   "group": "ziemas",
+   "cls": "viendīgļlapis",
+   "images": [
+    "assets/atlas/parasta_rudzusmilga_1.jpg",
+    "assets/atlas/parasta_rudzusmilga_2.jpg"
+   ],
+   "root": "barksaknes_ism"
+  },
+  {
+   "id": "tiruma_lacauza",
+   "name": "Tīruma lāčauza",
+   "latin": "Bromus arvensis",
+   "group": "ziemas",
+   "cls": "viendīgļlapis",
+   "images": [
+    "assets/atlas/tiruma_lacauza_1.jpg"
+   ],
+   "root": "barksaknes_ism"
+  },
+  {
+   "id": "austrumu_dizperkone",
+   "name": "Austrumu dižpērkone",
+   "latin": "Bunias orientalis",
+   "group": "divgadiga",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/austrumu_dizperkone_1.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "arstniecibas_versmele",
+   "name": "Ārstniecības vēršmēle",
+   "latin": "Anchusa officinalis",
+   "group": "divgadiga",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/arstniecibas_versmele_1.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "balta_spulgotne",
+   "name": "Baltā spulgotne",
+   "latin": "Silene latifolia",
+   "group": "divgadiga",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/balta_spulgotne_1.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "parasta_sirmene",
+   "name": "Parastā sirmene",
+   "latin": "Berteroa incana",
+   "group": "divgadiga",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/parasta_sirmene_1.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "savvalas_burkans",
+   "name": "Savvaļas burkāns",
+   "latin": "Daucus carota",
+   "group": "divgadiga",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/savvalas_burkans_1.jpg"
+   ],
+   "root": "mietsakne_ism"
+  },
+  {
+   "id": "kodiga_gundega",
+   "name": "Kodīgā gundega",
+   "latin": "Ranunculus acris",
+   "group": "barksaknu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/kodiga_gundega_1.jpg"
+   ],
+   "root": "barksaknes"
+  },
+  {
+   "id": "parasta_brungalvite",
+   "name": "Parastā brūngalvīte",
+   "latin": "Prunella vulgaris",
+   "group": "barksaknu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/parasta_brungalvite_1.jpg"
+   ],
+   "root": "barksaknes"
+  },
+  {
+   "id": "liela_celteka",
+   "name": "Lielā ceļteka",
+   "latin": "Plantago major",
+   "group": "barksaknu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/liela_celteka_1.jpg",
+    "assets/atlas/liela_celteka_2.jpg"
+   ],
+   "root": "barksaknes"
+  },
+  {
+   "id": "arstniecibas_pienene",
+   "name": "Ārstniecības pienene",
+   "latin": "Taraxacum officinale",
+   "group": "mietsaknu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/arstniecibas_pienene_1.jpg"
+   ],
+   "root": "mietsakne"
+  },
+  {
+   "id": "tiruma_peterene",
+   "name": "Tīruma pēterene",
+   "latin": "Knautia arvensis",
+   "group": "mietsaknu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/tiruma_peterene_1.jpg"
+   ],
+   "root": "mietsakne"
+  },
+  {
+   "id": "cirtaina_skabene",
+   "name": "Cirtainā skābene",
+   "latin": "Rumex crispus",
+   "group": "mietsaknu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/cirtaina_skabene_1.jpg",
+    "assets/atlas/cirtaina_skabene_2.jpg"
+   ],
+   "root": "mietsakne"
+  },
+  {
+   "id": "dzeltena_ilzite",
+   "name": "Dzeltenā ilzīte",
+   "latin": "Anthemis tinctoria",
+   "group": "mietsaknu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/dzeltena_ilzite_1.jpg"
+   ],
+   "root": "mietsakne"
+  },
+  {
+   "id": "parasta_pipene",
+   "name": "Parastā pīpene",
+   "latin": "Leucanthemum vulgare",
+   "group": "mietsaknu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/parasta_pipene_1.jpg"
+   ],
+   "root": "mietsakne"
+  },
+  {
+   "id": "saurlapu_celteka",
+   "name": "Šaurlapu ceļteka",
+   "latin": "Plantago lanceolata",
+   "group": "mietsaknu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/saurlapu_celteka_1.jpg",
+    "assets/atlas/saurlapu_celteka_2.jpg"
+   ],
+   "root": "mietsakne"
+  },
+  {
+   "id": "videja_celteka",
+   "name": "Vidējā ceļteka",
+   "latin": "Plantago media",
+   "group": "mietsaknu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/videja_celteka_1.jpg",
+    "assets/atlas/videja_celteka_2.jpg"
+   ],
+   "root": "mietsakne"
+  },
+  {
+   "id": "balta_panatre",
+   "name": "Baltā panātre",
+   "latin": "Lamium album",
+   "group": "saknenu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/balta_panatre_1.jpg"
+   ],
+   "root": "sakneni"
+  },
+  {
+   "id": "parastais_pelaskis",
+   "name": "Parastais pelašķis",
+   "latin": "Achillea millefolium",
+   "group": "saknenu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/parastais_pelaskis_1.jpg"
+   ],
+   "root": "sakneni"
+  },
+  {
+   "id": "parasta_garsa",
+   "name": "Parastā gārsa",
+   "latin": "Aegopodium podagraria",
+   "group": "saknenu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/parasta_garsa_1.jpg",
+    "assets/atlas/parasta_garsa_2.jpg"
+   ],
+   "root": "sakneni"
+  },
+  {
+   "id": "parasta_mallepe",
+   "name": "Parastā māllēpe",
+   "latin": "Tussilago farfara",
+   "group": "saknenu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/parasta_mallepe_1.jpg"
+   ],
+   "root": "sakneni",
+   "rootNote": "Sakneņi izvietojas daudz dziļāk nekā vārpatai (0,8–1,0 m), vairākos horizontālos stāvos zem aramkārtas."
+  },
+  {
+   "id": "tiruma_kosa",
+   "name": "Tīruma kosa",
+   "latin": "Equisetum arvense",
+   "group": "saknenu",
+   "cls": "sporaugs",
+   "images": [
+    "assets/atlas/tiruma_kosa_1.jpg"
+   ],
+   "root": "sakneni",
+   "rootNote": "Sakneņi lien vertikāli un horizontāli (var būt vairākus metrus gari); vairojas arī ar sporām."
+  },
+  {
+   "id": "parasta_vibotne",
+   "name": "Parastā vībotne",
+   "latin": "Artemisia vulgaris",
+   "group": "saknenu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/parasta_vibotne_1.jpg",
+    "assets/atlas/parasta_vibotne_2.jpg"
+   ],
+   "root": "sakneni"
+  },
+  {
+   "id": "loznu_varpata",
+   "name": "Ložņu vārpata",
+   "latin": "Elymus repens",
+   "group": "saknenu",
+   "cls": "viendīgļlapis",
+   "images": [
+    "assets/atlas/loznu_varpata_1.jpg",
+    "assets/atlas/loznu_varpata_2.jpg"
+   ],
+   "root": "sakneni",
+   "rootNote": "Sakneņi aramkārtā; viena auga sakneņi var izplatīties 3 m diametrā un veidot >200 dzinumu."
+  },
+  {
+   "id": "lokauglu_zverene",
+   "name": "Lokaugļu zvērene",
+   "latin": "Erucastrum gallicum",
+   "group": "saknu_dzinumu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/lokauglu_zverene_1.jpg"
+   ],
+   "root": "saknu_dzinumi"
+  },
+  {
+   "id": "parasta_vircele",
+   "name": "Parastā vīrcele",
+   "latin": "Linaria vulgaris",
+   "group": "saknu_dzinumu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/parasta_vircele_1.jpg"
+   ],
+   "root": "saknu_dzinumi"
+  },
+  {
+   "id": "viki",
+   "name": "Vīķi",
+   "latin": "Vicia spp.",
+   "group": "saknu_dzinumu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/viki_1.jpg"
+   ],
+   "root": "saknu_dzinumi"
+  },
+  {
+   "id": "maza_skabene",
+   "name": "Mazā skābene",
+   "latin": "Rumex acetosella",
+   "group": "saknu_dzinumu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/maza_skabene_1.jpg",
+    "assets/atlas/maza_skabene_2.jpg"
+   ],
+   "root": "saknu_dzinumi"
+  },
+  {
+   "id": "tiruma_mikstpiene",
+   "name": "Tīruma mīkstpiene",
+   "latin": "Sonchus arvensis",
+   "group": "saknu_dzinumu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/tiruma_mikstpiene_1.jpg",
+    "assets/atlas/tiruma_mikstpiene_2.jpg"
+   ],
+   "root": "saknu_dzinumi",
+   "rootNote": "Vienīgā no sakņu dzinumu nezālēm, kuras saknes nav ļoti dziļi."
+  },
+  {
+   "id": "tiruma_titenis",
+   "name": "Tīruma tītenis",
+   "latin": "Convolvulus arvensis",
+   "group": "saknu_dzinumu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/tiruma_titenis_1.jpg",
+    "assets/atlas/tiruma_titenis_2.jpg"
+   ],
+   "root": "saknu_dzinumi",
+   "rootNote": "Raksturīga dziļa mietsakne ar sakņu dzinumiem."
+  },
+  {
+   "id": "tiruma_usne",
+   "name": "Tīruma usne",
+   "latin": "Cirsium arvense",
+   "group": "saknu_dzinumu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/tiruma_usne_1.jpg",
+    "assets/atlas/tiruma_usne_2.jpg"
+   ],
+   "root": "saknu_dzinumi",
+   "rootNote": "Dziļa, vairākos horizontālos stāvos izvietota sakņu sistēma (līdz 5 m); jaunu augu var dot pat 3 mm sakņu fragments."
+  },
+  {
+   "id": "loznu_gundega",
+   "name": "Ložņu gundega",
+   "latin": "Ranunculus repens",
+   "group": "stigojosa",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/loznu_gundega_1.jpg"
+   ],
+   "root": "stigas",
+   "rootNote": "Vairojas ar virszemes stīgām; veido arī spēcīgas bārkšsaknes."
+  },
+  {
+   "id": "maura_platkajins",
+   "name": "Maura platkājiņš",
+   "latin": "Potentilla anserina",
+   "group": "stigojosa",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/maura_platkajins_1.jpg"
+   ],
+   "root": "stigas",
+   "rootNote": "Vairojas ar virszemes stīgām; veido arī spēcīgas bārkšsaknes."
+  },
+  {
+   "id": "purva_sarmene",
+   "name": "Purva sārmene",
+   "latin": "Stachys palustris",
+   "group": "bumbulu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/purva_sarmene_1.jpg",
+    "assets/atlas/purva_sarmene_2.jpg"
+   ],
+   "root": "bumbuli"
+  },
+  {
+   "id": "tiruma_metra",
+   "name": "Tīruma mētra",
+   "latin": "Mentha arvensis",
+   "group": "bumbulu",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/tiruma_metra_1.jpg",
+    "assets/atlas/tiruma_metra_2.jpg"
+   ],
+   "root": "bumbuli",
+   "rootNote": "Vairojas ar bumbuļiem sakņu galos."
+  },
+  {
+   "id": "krumaju_sipols",
+   "name": "Krūmāju sīpols",
+   "latin": "Allium oleraceum",
+   "group": "sipolu",
+   "cls": "viendīgļlapis",
+   "images": [
+    "assets/atlas/krumaju_sipols_1.jpg"
+   ],
+   "root": "sipoli"
+  },
+  {
+   "id": "lielais_zvagulis",
+   "name": "Lielais zvagulis",
+   "latin": "Rhinanthus serotinus",
+   "group": "pusparazits",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/lielais_zvagulis_1.jpg"
+   ]
+  },
+  {
+   "id": "parastais_sartzibulitis",
+   "name": "Parastais sārtžibulītis",
+   "latin": "Odontites vulgaris",
+   "group": "pusparazits",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/parastais_sartzibulitis_1.jpg"
+   ]
+  },
+  {
+   "id": "linu_vija",
+   "name": "Linu vija",
+   "latin": "Cuscuta epilinum",
+   "group": "parazits",
+   "cls": "divdīgļlapis",
+   "images": [
+    "assets/atlas/linu_vija_1.jpg"
+   ]
+  }
+ ],
+ "rootFigures": [
+  {
+   "id": "fig39",
+   "image": "assets/atlas/root_fig39.jpg",
+   "labels": {
+    "A": "Baltā balanda",
+    "B": "Sīkziedu sīkgalvīte",
+    "C": "Parastā gaiļsāre"
+   }
+  },
+  {
+   "id": "fig40",
+   "image": "assets/atlas/root_fig40.jpg",
+   "labels": {
+    "": "Ložņu vārpata"
+   }
+  },
+  {
+   "id": "fig41",
+   "image": "assets/atlas/root_fig41.jpg",
+   "labels": {
+    "A": "Tīruma mīkstpiene",
+    "B": "Parastā māllēpe"
+   }
+  },
+  {
+   "id": "fig42",
+   "image": "assets/atlas/root_fig42.jpg",
+   "labels": {
+    "A": "Tīruma usne",
+    "B": "Tīruma tītenis",
+    "C": "Tīruma kosa",
+    "D": "Tīruma mīkstpiene",
+    "E": "Ložņu vārpata"
+   }
+  },
+  {
+   "id": "fig43",
+   "image": "assets/atlas/root_fig43.jpg",
+   "labels": {
+    "": "Tīruma mētra"
+   }
+  }
+ ],
+ "testImages": {
+  "1": "assets/atlas/test_q01.jpg",
+  "2": "assets/atlas/test_q02.jpg",
+  "3": "assets/atlas/test_q03.jpg",
+  "4": "assets/atlas/test_q04.jpg",
+  "5": "assets/atlas/test_q05.jpg",
+  "6": "assets/atlas/test_q06.jpg",
+  "7": "assets/atlas/test_q07.jpg",
+  "8": "assets/atlas/test_q08.jpg",
+  "10": "assets/atlas/test_q10.jpg",
+  "11": "assets/atlas/test_q11.jpg",
+  "12": "assets/atlas/test_q12.jpg",
+  "13": "assets/atlas/test_q13.jpg",
+  "14": "assets/atlas/test_q14.jpg",
+  "15": "assets/atlas/test_q15.jpg",
+  "16": "assets/atlas/test_q16.jpg",
+  "17": "assets/atlas/test_q17.jpg",
+  "18": "assets/atlas/test_q18.jpg",
+  "21": "assets/atlas/test_q21.jpg"
+ },
+ "extraImages": {
+  "pp_rusa": {
+   "image": "assets/atlas/pp_rusa.jpg",
+   "label": "Labību rūsa uz lapas"
+  },
+  "pp_dratstarps": {
+   "image": "assets/atlas/pp_dratstarps.jpg",
+   "label": "Drātstārps – sprakšķu (sprakšķvaboļu) kāpurs"
+  },
+  "pp_kosa_sporas": {
+   "image": "assets/atlas/pp_kosa_sporas.jpg",
+   "label": "Tīruma kosas pavasara sporu vārpas"
+  },
+  "pp_titenis": {
+   "image": "assets/atlas/pp_titenis.jpg",
+   "label": "Tīruma tītenis ziedos"
+  },
+  "pp_varpata_saknenis": {
+   "image": "assets/atlas/pp_varpata_saknenis.jpg",
+   "label": "Ložņu vārpatas sakneņi"
+  },
+  "pp_virza": {
+   "image": "assets/atlas/pp_virza.jpg",
+   "label": "Parastā virza ziedā"
+  },
+  "pp_usne_saknes": {
+   "image": "assets/atlas/pp_usne_saknes.jpg",
+   "label": "Tīruma usnes sakņu sistēma augsnē"
+  },
+  "pp_usne_dzinumi": {
+   "image": "assets/atlas/pp_usne_dzinumi.jpg",
+   "label": "Tīruma usnes sakņu dzinumi"
+  },
+  "pp_veronika": {
+   "image": "assets/atlas/pp_veronika.jpg",
+   "label": "Veronika ziedā"
+  },
+  "pp_vejauza": {
+   "image": "assets/atlas/pp_vejauza.jpg",
+   "label": "Vējauzas skaras"
+  },
+  "pp_gailsare": {
+   "image": "assets/atlas/pp_gailsare.jpg",
+   "label": "Parastās gaiļsāres skara"
+  },
+  "pp_lacauza": {
+   "image": "assets/atlas/pp_lacauza.jpg",
+   "label": "Lāčauzas vārpiņas"
+  }
+ }
+}

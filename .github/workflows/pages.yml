@@ -28,7 +28,7 @@ jobs:
       - name: Validate merged question bank
         run: |
           python3 - <<'PY'
-          import re,json
+          import re,json,os
           s=open('index.html',encoding='utf-8').read()
           match=re.search(r'<script type="application/json" id="app-data">(.*?)</script>',s,re.S)
           assert match, 'Missing main data'
@@ -42,8 +42,9 @@ jobs:
             assert data['images'].get(key,'').startswith('data:image/'), f'Broken gallery photo: {key}'
           for question in questions:
             if question.get('image'):
-              key=str(question['image'])
-              assert data['images'].get(key,'').startswith('data:image/'), f'Broken image question: {question["id"]}'
+              value=data['images'].get(str(question['image']),'')
+              # Atlas photos are committed files in assets/atlas/; everything else is embedded.
+              assert value.startswith('data:image/') or (value.startswith('assets/atlas/') and os.path.isfile(value)), f'Broken image question: {question["id"]}'
           print('All 38 gallery photos and every illustrated question validated')
           print(f'Validated {len(questions)} questions')
           PY

@@ -76,6 +76,16 @@ for q in data['questions']:
     if q.get('source') not in data['sources']:
         q['source']='PRACT'
 
+# Weed atlas (photos extracted from materiali/ by build_atlas.py), root systems, teacher test, booklet facts.
+# These questions intentionally repeat wording ("Kura nezāle redzama attēlā?"), so they skip text de-duplication.
+import sys
+sys.path.insert(0,str(root/'scripts'))
+import atlas_questions
+atlas_new=atlas_questions.build(data,root)
+for q in atlas_new:
+    if q['id'] in ids: raise RuntimeError(f'Duplicate ID {q["id"]}')
+    data['questions'].append(q); ids.add(q['id'])
+
 # Restore the proven original image contract: DATA.images[q.image] is a data URL.
 # Never transform those references into file paths. The historical blob contains
 # the actual JPEG bytes, unlike the broken generated assets paths.
@@ -113,10 +123,12 @@ for question in data['questions']:
     elif ref.startswith('assets/questions/') and 'ADVIMG_' in ref:
         question['image']=stem
 
+def usable_image(value):
+    # Original photos and SVGs are embedded; atlas photos are committed files under assets/atlas/.
+    return isinstance(value,str) and (value.startswith('data:image/')
+        or (value.startswith('assets/atlas/') and (root/value).is_file()))
 bad=[(q['id'],q.get('image')) for q in data['questions']
-     if q.get('image') and not (
-        isinstance(data['images'].get(str(q['image'])),str)
-        and data['images'][str(q['image'])].startswith('data:image/'))]
+     if q.get('image') and not usable_image(data['images'].get(str(q['image'])))]
 if bad:
     raise RuntimeError(f'Broken image references: {bad[:20]}')
 # Every weed gallery image must be a usable inline data URL.
@@ -133,6 +145,65 @@ topics=[('Sakņu sistēmas','🌿'),('Nezāļu klasifikācija','🌱'),('Nezāļ
 for name,emoji in topics:
     entry="['"+name+"','"+emoji+"']"
     if entry not in source: source=source.replace('const TOPICS=[','const TOPICS=['+entry+',',1)
+# Atlas topics first, in their own order (each insert goes to the front).
+for name,emoji in reversed(atlas_questions.TOPICS):
+    source=source.replace('const TOPICS=[','const TOPICS=['+"['"+name+"','"+emoji+"'],",1)
+
+def patch(old,new):
+    global source
+    assert source.count(old)==1, f'Patch anchor not found exactly once: {old[:60]}'
+    source=source.replace(old,new,1)
+
+# Weed atlas view: every plant per root system / biological group and the root of every plant.
+atlas_topics=json.dumps([list(t) for t in atlas_questions.TOPICS],ensure_ascii=False)
+patch("ROOTS=DATA.rootTypes;","ROOTS=DATA.rootTypes, ATLAS=DATA.atlas, ATLAS_TOPICS="+atlas_topics+";")
+patch("['roots','♧','Sakņu sistēmas'],","['roots','♧','Sakņu sistēmas'],['atlas','✿','Nezāļu atlants'],")
+patch("roots:renderRoots,","roots:renderRoots,atlas:renderAtlas,")
+patch("function renderHome(){",r"""let atlasFilter='',atlasMode='root';
+function renderAtlas(){return `${topTitle('Nezāļu atlants',`${ATLAS.species.length} nezāles no kursa materiāliem: katrai sakņu sistēmai visi augi un katram augam tā sakņu sistēma un bioloģiskā grupa.`,btn('topic','Trenēties →','btn-primary','data-topic="Sakņu sistēmas ↔ augi"'))}
+<div class="toolbar"><input id="atlasSearch" type="search" class="search" placeholder="Meklēt augu, piem., usne..." value="${esc(atlasFilter)}"/><div class="atlas-tabs">${[['root','Pēc sakņu sistēmas'],['group','Pēc bioloģiskās grupas']].map(([m,t])=>btn('atlasMode',t,atlasMode===m?'btn-primary':'btn-light',`data-mode="${m}"`)).join('')}</div></div>
+<div id="atlasList">${atlasRows()}</div>
+<div class="section-head"><div><h3>Sakņu sistēmu zīmējumi (D. Lapiņš, 2021)</h3><p>Tie paši zīmējumi, kas skolotājas testā. Vispirms mēģini atpazīt, tad atver atbildi.</p></div></div>
+<div class="atlas-figs">${ATLAS.rootFigures.map(f=>`<div class="panel atlas-fig"><img src="${DATA.images[f.image]}" loading="lazy" alt="Nezāļu sakņu sistēmu zīmējums"/><details><summary>Rādīt atbildi</summary>${Object.entries(f.labels).map(([k,v])=>`<div>${k?`<b>${k}</b> – `:''}${esc(v)}</div>`).join('')}</details></div>`).join('')}</div>
+<div class="section-head"><div><h3>Trenēties ar atlantu</h3><p>Jautājumi veidoti tāpat kā skolotājas „Nezāļu testā”.</p></div></div>
+<div class="badge-wrap">${ATLAS_TOPICS.map(([t,i])=>btn('topic',`${i} ${esc(t)} (${Q.filter(q=>q.topic===t).length})`,'btn-outline',`data-topic="${esc(t)}"`)).join('')}${btn('teacherExam','⏱ Tests skolotājas formātā (21)','btn-primary')}</div>`}
+function atlasRows(){let term=atlasFilter.toLocaleLowerCase('lv-LV'),match=s=>!term||(s.name+' '+s.latin).toLocaleLowerCase('lv-LV').includes(term);
+let sections=atlasMode==='root'?Object.entries(ATLAS.roots).map(([id,r])=>({title:r.name,desc:r.desc,items:ATLAS.species.filter(s=>s.root===id)})):Object.entries(ATLAS.groups).map(([id,g])=>({title:g.life==='Barošanās veids'?g.name:`${g.life} · ${g.name}`,desc:g.desc,items:ATLAS.species.filter(s=>s.group===id)}));
+let html=sections.map(sec=>({...sec,items:sec.items.filter(match)})).filter(sec=>sec.items.length).map(sec=>`<section class="panel atlas-sec"><div class="atlas-head"><h3>${esc(sec.title)}</h3><span class="root-tag">${sec.items.length} ${sec.items.length===1?'augs':'augi'}</span></div><p class="small-muted">${esc(sec.desc)}</p><div class="atlas-names">${sec.items.map(s=>esc(s.name)).join(' · ')}</div><div class="atlas-grid">${sec.items.map(atlasCard).join('')}</div></section>`).join('');
+return html||'<div class="empty-state"><span class="emoji">🔍</span><h3>Augs nav atrasts</h3><p>Izmēģini citu nosaukumu.</p></div>'}
+function atlasCard(s){let g=ATLAS.groups[s.group],r=ATLAS.roots[s.root];
+return `<div class="atlas-card"><div class="atlas-pics">${s.images.map(k=>`<img src="${DATA.images[k]}" loading="lazy" alt="${esc(s.name)}"/>`).join('')}</div><b>${esc(s.name)}</b><i>${esc(s.latin)}</i><small>${esc(g.life==='Barošanās veids'?g.name:`${g.life} · ${g.name}`)} · ${esc(s.cls)}</small>${r?`<small class="atlas-root">🌱 ${esc(r.name)}</small>`:''}${s.rootNote?`<small>${esc(s.rootNote)}</small>`:''}</div>`}
+function pickTeacher(){let used=new Set(),take=(f,n)=>shuffled(Q.filter(q=>f(q)&&!used.has(q.id))).slice(0,n).map(q=>(used.add(q.id),q.id));
+return shuffled([...take(q=>q.topic==='Nezāļu foto atlants',7),...take(q=>q.id.startsWith('ATD-')||(q.id.startsWith('ATR-')&&!!q.image),4),...take(q=>q.topic==='Sakņu sistēmas ↔ augi'&&!q.image,2),...take(q=>q.id.startsWith('ATC-'),2),...take(q=>q.topic==='Nezāļu bukleti',4),...take(q=>q.topic==='Skolotājas tests',2)])}
+function renderHome(){""")
+patch("<div class=\"root-callout\"><span>🌿</span>","""<div class="root-callout"><span>🧑‍🏫</span><div><strong>Jauns: nezāļu atlants un skolotājas testa formāts</strong><p>${ATLAS.species.length} nezāles ar foto, visi augi katrai sakņu sistēmai un oriģinālais 21 jautājuma „Nezāļu tests”.</p></div><button data-action="atlas" class="btn btn-primary">Atlants →</button><button data-action="teacherExam" class="btn btn-outline">Tests →</button></div>
+<div class="root-callout"><span>🌿</span>""")
+patch("${btn('startExam','Sākt eksāmenu →','btn-primary btn-xl')}","${btn('startExam','Sākt eksāmenu →','btn-primary btn-xl')} ${btn('teacherExam','Tests skolotājas formātā (21 jaut., 25 min) →','btn-outline btn-xl')} ${btn('teacherOriginal','Oriģinālais skolotājas tests →','btn-light btn-xl')}")
+patch("else if(a==='rootsQuiz')","""else if(a==='atlasMode'){atlasMode=e.dataset.mode;render()}
+else if(a==='teacherExam'){start(pickTeacher(),'exam',25,'Skolotājas formāta tests')}
+else if(a==='teacherOriginal'){start(Q.filter(q=>q.topic==='Skolotājas tests').map(q=>q.id).sort(),'exam',25,'Skolotājas tests')}
+else if(a==='rootsQuiz')""")
+patch("document.addEventListener('input',e=>{","document.addEventListener('input',e=>{if(e.target.id==='atlasSearch'){atlasFilter=e.target.value;document.getElementById('atlasList').innerHTML=atlasRows()}")
+patch("</head>","""<style>
+.atlas-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.atlas-sec{padding:20px 22px;margin-bottom:16px}
+.atlas-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.atlas-head h3{margin:0;font-size:17px}
+.atlas-names{font-size:12px;font-weight:700;color:var(--green);margin:8px 0 14px;line-height:1.6}
+.atlas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:12px}
+.atlas-card{border:1px solid var(--border);border-radius:13px;padding:8px;display:flex;flex-direction:column;gap:3px;font-size:13px;background:var(--card)}
+.atlas-pics{display:flex;gap:4px;margin-bottom:5px}
+.atlas-pics img{flex:1;min-width:0;height:115px;object-fit:cover;border-radius:9px;background:var(--sage)}
+.atlas-card i,.atlas-card small{font-size:11px;color:var(--muted);line-height:1.4}
+.atlas-card small.atlas-root{color:var(--green);font-weight:800}
+.atlas-figs{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.atlas-fig{padding:12px}.atlas-fig img{width:100%;border-radius:9px;background:#fff}
+.atlas-fig summary{cursor:pointer;font-weight:800;margin:9px 0 5px;color:var(--green)}
+.atlas-fig details div{font-size:13px;padding:2px 0}
+.root-callout .btn{flex-shrink:0}
+@media(max-width:480px){.atlas-grid{grid-template-columns:1fr 1fr}.atlas-pics img{height:90px}.root-callout{flex-wrap:wrap}}
+</style>
+</head>""")
 
 # Topic-specific resumability. Preserve exam sessions independently.
 source=source.replace('let saved=load();let stats=', 'let saved=load();let topicSessions=saved.topicSessions||{};let stats=',1)

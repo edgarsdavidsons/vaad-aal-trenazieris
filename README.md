@@ -45,3 +45,18 @@ GitHub repozitorijā atveriet **Settings → Pages**, izvēlieties **Deploy from
 ## Četri praktisko uzdevumu veidi
 
 `data/advanced_questions.json` satur 76 jaunus uzdevumus: 30 smidzināšanas aprēķinus, 16 marķējuma un GHS jautājumus, 20 praktiskas situācijas, 10 vizuālas sakņu sistēmu atpazīšanas shēmas. Vizuālie attēli ir oriģinālas izglītojošas SVG ilustrācijas, nevis lauka fotogrāfijas vai oficiālu produktu etiķešu attēli. Sākotnējās nezāļu fotogrāfijas paliek galvenajā trenažierī. Visi jaunie jautājumi ir mācību materiāli, nevis oficiālie VAAD eksāmena jautājumi.
+
+## Nezāļu atlants un skolotājas testa formāts
+
+- **Nezāļu atlants** (izvēlnē): 82 nezāles ar foto no `materiali/` (D. Piliksere 2022; Hamouz, Bayer, latvijasdaba.lv), sagrupētas pēc sakņu sistēmas (mietsakne, bārkšsaknes, sakneņi, sakņu dzinumi, stīgas, bumbuļi, sīpoli) un pēc bioloģiskās grupas. Katrai sakņu sistēmai redzami visi augi, katram augam tā sakņu sistēma. Iekļauti D. Lapiņa (2021) sakņu zīmējumi ar slēptām atbildēm.
+- **Jaunas tēmas**: Skolotājas tests (oriģinālie 21 jautājumi ar bildēm), Nezāļu foto atlants, Sakņu sistēmas ↔ augi (abos virzienos), Bioloģiskās grupas, Nezāļu bukleti (2016/2017 fakti).
+- **Tests skolotājas formātā**: eksāmena sadaļā – nejauši 21 jautājums (foto, sakņu zīmējumi, grupas, fakti), 25 min; un oriģinālais tests.
+
+Atlanta attēli glabājas `assets/atlas/`, dati `data/atlas.json`. Tos ģenerē lokāli no `materiali/` (mape nav repozitorijā):
+
+```
+python3 -m venv .venv && .venv/bin/pip install pymupdf pillow python-pptx
+.venv/bin/python scripts/build_atlas.py
+```
+
+Jautājumus no atlanta būvē `scripts/atlas_questions.py`, ko izsauc `scripts/merge_questions.py` (arī GitHub Actions).
