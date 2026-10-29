@@ -79,12 +79,27 @@ for key,value in list(data['images'].items()):
     if not isinstance(value,str) or not value.startswith('data:'):
         continue
     header, encoded=value.split(',',1)
+    # Keep lightweight SVG illustrations embedded to avoid missing assets.
+    if 'image/svg+xml' in header: continue
     ext='svg' if 'image/svg+xml' in header else ('png' if 'image/png' in header else ('jpeg' if 'image/jpeg' in header else 'webp'))
     clean=re.sub(r'[^A-Za-z0-9_-]','_',str(key))
     filename=f'{clean}.{ext}'
     (asset_dir/filename).write_bytes(base64.b64decode(encoded))
     data['images'][key]='assets/questions/'+filename
 
+# Validate that every image reference points to an existing file or valid data URL.
+missing=[]
+for question in data['questions']:
+    if not question.get('image'): continue
+    key=question['image']
+    value=data['images'].get(key)
+    if not value:
+        missing.append((question['id'],key,'no image mapping'))
+    elif isinstance(value,str) and value.startswith('assets/'):
+        if not (root/value).is_file():
+            missing.append((question['id'],key,value))
+if missing:
+    raise RuntimeError('Missing question images: '+repr(missing[:20]))
 payload=json.dumps(data,ensure_ascii=False,separators=(',',':')).replace('</','<\\/')
 source=source[:m.start(2)]+payload+source[m.end(2):]
 topics=[('Sakņu sistēmas','🌿'),('Nezāļu klasifikācija','🌱'),('Nezāļu ierobežošana','🌾'),('Nezāļu bioloģija','🍃'),('Augu augšana','☀️'),('AAL klasifikācija','🧪'),('Herbicīdu rezistence','🔬'),('AAL drošība','🛡️'),('AAL marķējuma analīze','🏷️'),('Praktiskās situācijas','🧭'),('Vizuālā diagnostika','🔎')]
