@@ -21,6 +21,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Configure Pages
         uses: actions/configure-pages@v5
+      - name: Merge new questions into the main trainer
+        run: python3 scripts/merge_questions.py
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
