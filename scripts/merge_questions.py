@@ -5,7 +5,11 @@ from pathlib import Path
 
 root=Path(__file__).resolve().parents[1]
 page=root/'index.html'
-source=page.read_text(encoding='utf-8')
+# Always build from the last known good original, not a previously generated page.
+# This prevents a broken assets/questions path from being carried into the next build.
+import subprocess
+historical_blob='9e40c6f2b0de406ef7c0a29dd2acce9366a55b83'
+source=subprocess.check_output(['git','cat-file','blob',historical_blob],cwd=root).decode('utf-8')
 m=re.search(r'(<script type="application/json" id="app-data">)(.*?)(</script>)',source,re.S)
 if not m: raise SystemExit('Missing main app-data JSON')
 data=json.loads(m.group(2))
@@ -82,6 +86,8 @@ historical_match=re.search(r'<script type="application/json" id="app-data">(.*?)
 if not historical_match:
     raise RuntimeError('Historical original photo dataset not found')
 historical=json.loads(historical_match.group(1))
+# Restore the original gallery metadata as well as image bytes.
+data['weeds']=historical['weeds']
 original_images=historical.get('images',{})
 if len(original_images)<38:
     raise RuntimeError(f'Expected 38 original weed photos, got {len(original_images)}')
@@ -113,6 +119,12 @@ bad=[(q['id'],q.get('image')) for q in data['questions']
         and data['images'][str(q['image'])].startswith('data:image/'))]
 if bad:
     raise RuntimeError(f'Broken image references: {bad[:20]}')
+# Every weed gallery image must be a usable inline data URL.
+for weed in data['weeds']:
+    ref=str(weed['id'])
+    value=data['images'].get(ref,'')
+    assert value.startswith('data:image/'), f'Gallery image {ref} is not embedded'
+assert len(data['weeds'])==38, f'Expected 38 gallery entries, got {len(data["weeds"])}'
 print(f'Validated {len(original_images)} original photos and {sum(bool(q.get("image")) for q in data["questions"])} illustrated questions')
 
 payload=json.dumps(data,ensure_ascii=False,separators=(',',':')).replace('</','<\\/')
