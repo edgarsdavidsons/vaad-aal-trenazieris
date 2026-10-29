@@ -4,7 +4,7 @@ on:
     branches: [main]
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 concurrency:
@@ -23,6 +23,27 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Merge new questions into the main trainer
         run: python3 scripts/merge_questions.py
+      - name: Validate merged question bank
+        run: |
+          python3 - <<'PY'
+          import re,json
+          s=open('index.html',encoding='utf-8').read()
+          match=re.search(r'<script type="application/json" id="app-data">(.*?)</script>',s,re.S)
+          assert match, 'Missing main data'
+          questions=json.loads(match.group(1))['questions']
+          assert len(questions)>=300, f'Expected >=300 questions, got {len(questions)}'
+          assert len(set(q['id'] for q in questions)) == len(questions), 'Duplicate question IDs'
+          print(f'Validated {len(questions)} questions')
+          PY
+      - name: Commit unified index to main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if ! git diff --cached --quiet; then
+            git commit -m "Build unified VAAD trainer question bank [skip ci]"
+            git push origin HEAD:main
+          fi
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
