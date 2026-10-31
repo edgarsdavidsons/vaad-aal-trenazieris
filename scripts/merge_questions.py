@@ -58,6 +58,11 @@ for i,q in enumerate(advanced,1):
         item['image']=key
     new.append(item)
 
+# MK 13.12.2011. noteikumi Nr. 950 "Augu aizsardzības līdzekļu lietošanas noteikumi" (punktu atsauces skaidrojumos).
+mk950=json.loads((root/'data/mk950_questions.json').read_text(encoding='utf-8'))
+for i,q in enumerate(mk950,1):
+    new.append(dict(id=f'MK950-{i:03}',topic='MK Nr. 950 lietošanas noteikumi',q=q['q'],opts=q['opts'],why=q['why'],source='MK950'))
+
 added=0
 for q in new:
     normalized=q['q'].strip().casefold()
@@ -67,6 +72,11 @@ for q in new:
     seen.add(normalized); ids.add(q['id']); added+=1
 
 # Ensure every question's source is readable by the main UI.
+data['sources'].setdefault('MK950', {
+    'title':'MK 13.12.2011. noteikumi Nr. 950 „Augu aizsardzības līdzekļu lietošanas noteikumi”',
+    'url':'https://likumi.lv/ta/id/241853-augu-aizsardzibas-lidzeklu-lietosanas-noteikumi',
+    'type':'Normatīvais akts'
+})
 data['sources'].setdefault('PRACT', {
     'title':'Praktiskie mācību uzdevumi un oriģinālās shēmas',
     'url':'https://www.vaad.gov.lv/lv/macibas-un-apliecibas',
@@ -146,9 +156,12 @@ for weed in data['weeds']:
 assert len(data['weeds'])==38, f'Expected 38 gallery entries, got {len(data["weeds"])}'
 print(f'Validated {len(original_images)} original photos and {sum(bool(q.get("image")) for q in data["questions"])} illustrated questions')
 
+# Full MK Nr. 950 text by point, for the in-page assistant (assets/assistant.js).
+import knowledge
+data['mk950']={'url':knowledge.MK950_URL,'points':knowledge.mk950_points()}
 payload=json.dumps(data,ensure_ascii=False,separators=(',',':')).replace('</','<\\/')
 source=source[:m.start(2)]+payload+source[m.end(2):]
-topics=[('Sakņu sistēmas','🌿'),('Nezāļu klasifikācija','🌱'),('Nezāļu ierobežošana','🌾'),('Nezāļu bioloģija','🍃'),('Augu augšana','☀️'),('AAL klasifikācija','🧪'),('Herbicīdu rezistence','🔬'),('AAL drošība','🛡️'),('AAL marķējuma analīze','🏷️'),('Praktiskās situācijas','🧭'),('Vizuālā diagnostika','🔎')]
+topics=[('Sakņu sistēmas','🌿'),('Nezāļu klasifikācija','🌱'),('Nezāļu ierobežošana','🌾'),('Nezāļu bioloģija','🍃'),('Augu augšana','☀️'),('AAL klasifikācija','🧪'),('Herbicīdu rezistence','🔬'),('AAL drošība','🛡️'),('AAL marķējuma analīze','🏷️'),('Praktiskās situācijas','🧭'),('Vizuālā diagnostika','🔎'),('MK Nr. 950 lietošanas noteikumi','📜')]
 for name,emoji in topics:
     entry="['"+name+"','"+emoji+"']"
     if entry not in source: source=source.replace('const TOPICS=[','const TOPICS=['+entry+',',1)
@@ -244,6 +257,29 @@ patch("</head>","""<style>
 .atlas-fig details div{font-size:13px;padding:2px 0}
 .root-callout .btn{flex-shrink:0}
 @media(max-width:480px){.atlas-grid{grid-template-columns:1fr 1fr;gap:9px}.atlas-thumbs img{width:34px;height:28px}.root-callout{flex-wrap:wrap}.zoom{padding:8px}.zoom-nav{top:auto;bottom:18px}}
+</style>
+</head>""")
+
+# "Jautā asistentam": Claude chat over the page's own data; the user's API key stays in their browser.
+patch("['atlas','✿','Nezāļu atlants'],","['atlas','✿','Nezāļu atlants'],['ask','✦','Jautā asistentam'],")
+patch("atlas:renderAtlas,","atlas:renderAtlas,ask:renderAsk,")
+patch("function handleAction(a,e){","function handleAction(a,e){if(askAction(a,e))return;")
+patch("<script>",'<script src="assets/assistant.js"></script>\n<script>')
+patch("</head>","""<style>
+.ask-panel{padding:0;display:flex;flex-direction:column;height:min(70vh,720px)}
+.ask-log{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px}
+.ask-msg{max-width:85%;padding:11px 15px;border-radius:14px;font-size:14px;line-height:1.55;overflow-wrap:anywhere}
+.ask-msg.user{align-self:flex-end;background:var(--green);color:#fff;white-space:pre-wrap}
+.ask-msg.assistant{align-self:flex-start;background:var(--sage);color:var(--ink)}
+.ask-msg.error{align-self:flex-start;background:var(--redbg);color:var(--red)}
+.ask-msg.pending{opacity:.7;font-style:italic}
+.ask-msg p{margin:0 0 8px}.ask-msg p:last-child{margin:0}.ask-msg ul{margin:4px 0 8px;padding-left:20px}.ask-msg h4{margin:8px 0 4px;font-size:14px}
+.ask-input{display:flex;gap:10px;padding:12px;border-top:1px solid var(--border)}
+.ask-input textarea{flex:1;resize:none;font:inherit;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--ink)}
+.ask-empty{color:var(--muted);font-size:14px}.ask-empty .btn{margin:0 8px 8px 0}
+.ask-setup{padding:22px;max-width:620px}.ask-setup input{width:100%;margin:10px 0 12px}
+.ask-tools{display:flex;gap:8px;flex-wrap:wrap}
+@media(max-width:480px){.ask-msg{max-width:95%}.ask-log{padding:12px}.ask-panel{height:72vh}}
 </style>
 </head>""")
 

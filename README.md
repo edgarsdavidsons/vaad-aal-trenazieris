@@ -60,3 +60,26 @@ python3 -m venv .venv && .venv/bin/pip install pymupdf pillow python-pptx
 ```
 
 Jautājumus no atlanta būvē `scripts/atlas_questions.py`, ko izsauc `scripts/merge_questions.py` (arī GitHub Actions).
+
+## MK noteikumi Nr. 950
+
+Tēma **„MK Nr. 950 lietošanas noteikumi”** – 67 jautājumi no [MK 13.12.2011. noteikumiem Nr. 950 „Augu aizsardzības līdzekļu lietošanas noteikumi”](https://likumi.lv/ta/id/241853-augu-aizsardzibas-lidzeklu-lietosanas-noteikumi) (uzglabāšana, reģistrācijas žurnāls, lietošanas aizliegumi, vēja ātrums, bišu aizsardzība, sēklu kodināšana, fumigācija, publiskas teritorijas, izsmidzināšana no gaisa, kontrole). Katra skaidrojumā norādīts noteikumu punkts. Dati: `data/mk950_questions.json`.
+
+## Jautāt par saturu: MCP serveris un CLI aģents
+
+Viss trenažiera saturs ir pieejams meklēšanai: jautājumi ar atbildēm un skaidrojumiem, nezāļu atlants, bioloģiskās grupas, sakņu sistēmas un pilns MK noteikumu Nr. 950 teksts (`data/mk950_text.txt`, sadalīts pa punktiem). Meklēšanu nodrošina `scripts/knowledge.py`, un tā nolasa jau uzbūvēto `index.html`.
+
+**MCP serveris** (`scripts/mcp_server.py`, bez atkarībām un API atslēgas). Rīki: `search`, `mk950_point`, `list_topics`, `topic_questions`, `get_question`, `quiz`, `check_answer`, `overview`.
+- *Claude Code:* repozitorijā ir `.mcp.json`. Atver projektu ar `claude` un apstiprini serveri `vaad-aal`. Tad vari jautāt, piemēram: „Ko MK 950 saka par kodinātām sēklām?” vai „Uzdod man 5 jautājumus par bioloģiskajām grupām”.
+- *Claude Desktop:* `claude_desktop_config.json` pievieno `"vaad-aal": {"command": "python3", "args": ["/pilns/ceļš/scripts/mcp_server.py"]}`.
+
+**CLI aģents** (`scripts/ask.py`) izmanto Claude API ar tiem pašiem rīkiem:
+
+```
+python3 -m venv .venv && .venv/bin/pip install anthropic
+export ANTHROPIC_API_KEY=...   # nekad neievieto atslēgu repozitorijā – lapa ir publiska
+.venv/bin/python scripts/ask.py "Cik ilgi jāglabā reģistrācijas žurnāls?"
+.venv/bin/python scripts/ask.py          # sarunas režīms
+```
+
+**Serverī (http://62.238.29.79/)** asistents strādā bez atslēgas ievades. Nginx pārsūta `api/claude/messages` uz Anthropic un pievieno atslēgu no `/etc/nginx/anthropic-key.conf`. Tas ir servera fails, kas nav repozitorijā. Pieprasījumu skaits ir ierobežots katrai IP adresei. Konfigurācija ir `deploy/nginx-claude*.conf`.
